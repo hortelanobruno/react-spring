@@ -35,6 +35,7 @@ public class DatabaseLoader implements CommandLineRunner {
 		this.employees.save(new Employee("Frodo", "Baggins", "ring bearer", greg));
 		this.employees.save(new Employee("Bilbo", "Baggins", "burglar", greg));
 		this.employees.save(new Employee("Gandalf", "the Grey", "wizard", greg));
+		this.employees.save(new Employee("Gandalf2", "the Grey2", "wizard2", greg));
 
 		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("oliver", "doesn't matter", AuthorityUtils.createAuthorityList("ROLE_MANAGER")));
 
