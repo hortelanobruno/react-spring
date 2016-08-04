@@ -1,12 +1,10 @@
 package com.brunoli.payroll;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
 import lombok.Data;
 import lombok.ToString;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -18,12 +16,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 // tag::code[]
 @Data
 @ToString(exclude = "password")
-@Entity
+@Document
 public class Manager {
 
 	public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
-	private @Id @GeneratedValue Long id;
+	private @Id String id;
 
 	private String name;
 

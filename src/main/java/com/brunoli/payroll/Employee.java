@@ -1,31 +1,30 @@
 package com.brunoli.payroll;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Version;
-
-import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Data;
 
 /**
  * @author Greg Turnquist
  */
 // tag::code[]
 @Data
-@Entity
+@Document
 public class Employee {
 
-	private @Id @GeneratedValue Long id;
+	private @Id String id;
 	private String firstName;
 	private String lastName;
 	private String description;
 
 	private @Version @JsonIgnore Long version;
 
-	private @ManyToOne Manager manager;
+	private @DBRef Manager manager;
 
 	private Employee() {
 	}

@@ -19,18 +19,21 @@ public class DatabaseLoader implements CommandLineRunner {
 
 	@Autowired
 	public DatabaseLoader(EmployeeRepository employeeRepository, ManagerRepository managerRepository) {
-
 		this.employees = employeeRepository;
 		this.managers = managerRepository;
 	}
 
 	@Override
 	public void run(String... strings) throws Exception {
+		// System.out.println("Carga inicial");
+		managers.deleteAll();
 
 		Manager greg = this.managers.save(new Manager("greg", "turnquist", "ROLE_MANAGER"));
 		Manager oliver = this.managers.save(new Manager("oliver", "gierke", "ROLE_MANAGER"));
 
 		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("greg", "doesn't matter", AuthorityUtils.createAuthorityList("ROLE_MANAGER")));
+
+		employees.deleteAll();
 
 		this.employees.save(new Employee("Frodo", "Baggins", "ring bearer", greg));
 		this.employees.save(new Employee("Bilbo", "Baggins", "burglar", greg));
