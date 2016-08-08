@@ -23,7 +23,6 @@ public class SpringDataRestEventHandler {
 
 	@HandleBeforeCreate
 	public void applyUserInformationUsingSecurityContext(Employee employee) {
-
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();
 		Manager manager = this.managerRepository.findByName(name);
 		if (manager == null) {

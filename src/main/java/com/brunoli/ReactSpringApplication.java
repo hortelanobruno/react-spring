@@ -9,4 +9,5 @@ public class ReactSpringApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ReactSpringApplication.class, args);
 	}
+
 }

@@ -30,6 +30,7 @@ public class User {
 	private @Id String id;
 	private String fullName;
 	private String description;
+	@NotNull(message = "User email is mandatory")
 	@Indexed(unique = true)
 	private String email;
 	private @JsonIgnore String password;
@@ -37,7 +38,7 @@ public class User {
 	private Boolean active;
 	private Long creationDate;
 	private Long lastLogin;
-	@NotNull(message = "domainId is mandatory")
+	@NotNull(message = "User domainId is mandatory")
 	private String domainId;
 
 	private @Version @JsonIgnore Long version;
