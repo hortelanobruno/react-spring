@@ -10,5 +10,7 @@ import com.brunoli.payroll.analytics.entities.Group;
 // tag::code[]
 public interface GroupRepository extends MongoRepository<Group, String> {
 
+	void deleteByDomainId(String domainId);
+
 }
 // end::code[]

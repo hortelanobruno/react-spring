@@ -40,9 +40,8 @@ public class User {
 	private Long lastLogin;
 	@NotNull(message = "User domainId is mandatory")
 	private String domainId;
-
+	private Boolean isDefault;
 	private @Version @JsonIgnore Long version;
-
 	private List<String> groupsIds;
 
 	public User() {

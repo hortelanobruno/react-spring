@@ -29,6 +29,7 @@ public class Group {
 	private String domainId;
 	private Elements elements;
 	private @Version @JsonIgnore Long version;
+	private Boolean isDefault;
 
 	public Group() {
 	}

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.brunoli.payroll.analytics.entities.User;
 import com.brunoli.payroll.analytics.repository.UserRepository;
+import com.brunoli.payroll.analytics.util.DomainModelException;
 
 /**
  * @author Greg Turnquist
@@ -51,6 +52,9 @@ public class UserEventHandler {
 	@HandleBeforeDelete
 	public void beforeDeleteUser(User user) {
 		System.out.println("before delete: " + user);
+		if (user.getIsDefault()) {
+			throw new DomainModelException("User default cant be deleted.");
+		}
 	}
 
 	@HandleAfterDelete

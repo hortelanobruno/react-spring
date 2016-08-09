@@ -26,7 +26,6 @@ public class Domain {
 	private String name;
 	private String description;
 	private Elements elements;
-
 	private @Version @JsonIgnore Long version;
 
 	public Domain() {
