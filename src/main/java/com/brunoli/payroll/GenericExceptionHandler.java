@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice(basePackageClasses = RepositoryRestExceptionHandler.class)
 public class GenericExceptionHandler {
 
-	@ResponseStatus(value = HttpStatus.CONFLICT, reason = "Data integrity violation")
+	@ResponseStatus(value = HttpStatus.CONFLICT, reason = "Data integrity violation papa!")
 	@ExceptionHandler(org.springframework.dao.DuplicateKeyException.class)
 	public void conflict(org.springframework.dao.DuplicateKeyException ex) {
 		System.out.println(ex.getMessage());
