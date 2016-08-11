@@ -1,0 +1,266 @@
+
+#wrappercentral{
+    width: 100%;
+    min-width: 1000px;
+    max-width: 2000px;
+    margin: auto;
+}
+
+#wrapper {
+    width: 100%;
+    min-width: 1000px;
+
+    margin: 0 auto;
+}
+
+#navigation {
+    float: left;
+    height: 40px;
+    width: 100%;
+}
+
+#contentliquid {
+    position: absolute;
+    top: 21%;
+    left: 22%;
+    width: 70%;
+    height: 71%;
+    overflow: auto;
+}
+
+.columnContent2 {
+    position: absolute;
+    width: 200px;
+    height: 500px;
+    padding: 10px;
+    overflow: auto;
+    border: 2px solid #e3e3e3;
+    border-radius: 5px;
+    visibility: visible;
+}
+
+.titleHeader {
+    position: absolute;
+    top: 5%;
+    left: 1%;
+    width: 98%;
+    height: 9%;
+    padding: 6px;
+}
+
+.headerUtil {
+    width: 100%;
+    height: 5%;
+    text-align: left;
+    padding: 0px 0px;
+    top: 0px;
+    visibility: visible;
+}
+
+.columnContent {
+    position: absolute;
+    top: 6%;
+    width: 100%;
+    height: 93%;
+    padding: 0px;
+    visibility: visible;
+    overflow: hidden;
+    border: none;
+}
+
+.columnContentTabs {
+    position: absolute;
+    top: 17%;
+    width: 98%;
+    height: 80%;
+    padding: 10px;
+    overflow: auto;
+}
+
+#content {
+    background: #FFFFFF;
+    margin-left: 150px;
+}
+
+#leftcolumn {
+    left: 0%;
+    position: absolute;
+    top: 17%;
+    height: 75%;
+    width: 50%;
+    /*background-color: red;*/
+    float: left;
+
+}
+
+#rightcolumn {
+    position: absolute;
+    top: 17%;
+    left: 50%;
+    height: 75%;
+    width: 50%;
+    /*background-color: yellow;*/
+    float: right;
+
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    right: 0px;
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 0px;
+    background-color: #f5f5f5;
+    border: 1px solid #eee;
+    border: 1px solid rgba(0,0,0,.05);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+    -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+}
+
+.contentTableinTab{
+    position: absolute;
+    top: 10%;
+    left: 21%;
+    width: 75%;
+    height: 68%;
+    overflow: auto;
+}
+
+
+#contentliquidInTab {
+    position: absolute;
+    top: 10%;
+    left: 22%;
+    width: 77%;
+    height: 76%;
+    overflow: auto;
+}
+#leftcolumnInTab {
+    position: absolute;
+    top: 10%;
+    right: 79%;
+    height: 70%;
+    width: 20%;
+}
+
+.headerUtilInTab {
+    width: 100%;
+    height: 6%;
+    text-align: left;
+    top: 0px;
+    visibility: visible;
+}
+
+.margin-bottom10 {
+    margin-bottom: 10px !important;
+}
+
+select {
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+}
+
+.boton-agregar {
+    background-image: url(../img/add.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: 6px 6px;
+    padding-left: 12px;
+    vertical-align: middle;
+    width: 30px !important;
+    height: 30px !important;
+    cursor: default !important;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#classtabs {
+    padding: 0;
+    margin: 70px 0 9px 0 !important;
+}
+
+.AuthType {
+    position: absolute;
+    left: 500px;
+    top: -8px;
+    /*border: 1px solid #ddd;*/
+    padding: 6px;
+    width: 446px;
+    height: 60px;
+}
+
+.page-header-custom {
+    padding-bottom: 17px;
+    margin: 18px 0;
+    border-bottom: 0px;
+}
+
+.boton-eliminar {
+    background-image: url(../img/cross.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: 6px 6px;
+    padding-left: 12px;
+    vertical-align: middle;
+    width: 30px !important;
+    height: 30px !important;
+    cursor: default !important;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.boton-editar {
+    background-image: url(../img/pencil.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: 6px 6px;
+    padding-left: 12px;
+    vertical-align: middle;
+    width: 30px !important;
+    height: 30px !important;
+    cursor: default !important;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.boton-duplicar {
+    background-image: url(../img/duplicate.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: 6px 6px;
+    padding-left: 12px;
+    vertical-align: middle;
+    width: 30px !important;
+    height: 30px !important;
+    cursor: default !important;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[disabled],
+select[disabled],
+textarea[disabled],
+input[readonly],
+select[readonly],
+textarea[readonly] {
+    cursor: not-allowed;
+    background-color: #eeeeee;
+    border-color: #ddd;
+}
+#tableDuplicateProfilePermission{
+    overflow: scroll;
+    max-height: 500px;
+}
+#tableEditProfilePermission{
+    overflow: scroll;
+    max-height: 100px;
+}
+#tableAddUserGroupPermission{
+    overflow: scroll;
+    max-height: 500px;
+}

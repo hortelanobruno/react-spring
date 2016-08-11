@@ -1,0 +1,190 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:include="jspf/header">...</div>
+<link href="/css/reporter.css" rel="stylesheet" />
+<link href="/css/dashboard/dashboardStyle.css" rel="stylesheet" />
+<!-- Procesamiento de datos para Highcharts -->
+<script src="/js/napcharts.js"></script>
+<!--SPLITPANE-->
+<script type="text/javascript" src="/js/splitpane/jquery-ui-latest.js"></script>
+<script type="text/javascript" src="/js/splitpane/jquery.layout-1.3.0.rc30.80.js"></script>
+<link href="/css/splitpane/layout-default-latest.css" rel="stylesheet" />
+<!-- HIGHCHARTS-->
+<script src="/js/highcharts/highcharts.js"></script>
+<script src="/js/highcharts/exporting.js"></script>
+</head>
+<body>
+	<div th:include="jspf/toolbar">...</div>
+	<script src="/js/dashboard.js"></script>
+	<script type="text/javascript">
+		
+	</script>
+	<div id="layoutDashboard" class="layout-callis">
+		<div class="outer-center">
+			<!-- INICIO DIV PRINCIPAL-->
+			<div id="mainPanel" class="middle-center">
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="active">
+						<div class="btn-group" role="group" aria-label="...">
+							<button id="buttonAddDashboardComponent" type="button" disabled="true" class="btn btn-default dashboardButton" data-toggle="modal" onclick="showAddDashboardComponent()" data-whatever="@mdo" title="Add new Dashboard Component">
+								<image src="/img/dashboard/add.png" />
+							</button>
+						</div>
+					</li>
+				</ul>
+				<div class="container-fluid">
+					<div id="dashboardComponentsContainer" class="row"></div>
+				</div>
+			</div>
+			<div class="middle-west">
+				<!--INICIO DIV LIST-->
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="active">
+						<div class="btn-group" role="group" aria-label="...">
+							<button id="buttonAddDashboard" type="button" class="btn btn-default dashboardButton" data-toggle="modal" data-target="#addDashboard" data-whatever="@mdo" title="Add new Dashboard">
+								<image src="/img/dashboard/add.png" />
+							</button>
+							<button id="buttonDeleteDashboard" type="button" disabled="true" class="btn btn-default dashboardButton" data-toggle="modal" data-target="#deleteDashboard" data-whatever="@mdo" title="Delete selected Dashboard">
+								<image src="/img/dashboard/cross.png" />
+							</button>
+							<button id="buttonEditDashboard" type="button" disabled="true" class="btn btn-default dashboardButton" data-toggle="modal" data-target="#editDashboard" data-whatever="@mdo" title="Edit selected Dashboard">
+								<image src="/img/dashboard/pencil.png" />
+							</button>
+						</div>
+					</li>
+				</ul>
+				<div id="dashboards">
+					<!--INICIO LIST-->
+					<ol id="dashboardsList">
+					</ol>
+				</div>
+				<!--FIN LIST-->
+			</div>
+			<!--FIN DIV LIST-->
+		</div>
+		<!-- FIN DIV PRINCIPAL-->
+	</div>
+	<!-- Dialog add dashboard -->
+	<div class="modal fade" id="addDashboard" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-center">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">Create Dashboard</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<label for="addDashboardName" class="control-label">Name:</label> <input type="text" class="form-control" id="addDashboardName" />
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button id="dialogAddDashboardButtonClose" type="button" class="btn btn-default" data-dismiss="modal" onclick="closeAddDashboard();">Close</button>
+					<button id="dialogAddDashboardButtonAdd" idtype="button" class="btn btn-primary" onclick="addDashboard()">Confirm</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Dialog delete dashboard-->
+	<div class="modal fade" id="deleteDashboard" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-center">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">Delete Dashboard</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<h5>Are you sure you want to delete selected Dashboard?</h5>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button id="dialogDeleteDashboardButtonClose" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button id="dialogDeleteDashboardButtonOk" type="button" class="btn btn-primary" onclick="deleteDashboard();">Confirm</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Dialog edit dashboard -->
+	<div class="modal fade" id="editDashboard" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-center">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">Edit Dashboard</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<label for="editDashboardName" class="control-label"> New Dashboard name:</label> <input type="text" class="form-control" id="editDashboardName" />
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button id="dialogEditDashboardButtonClose" type="button" class="btn btn-default" data-dismiss="modal" onclick="closeEditDashboard();">Close</button>
+					<button id="dialogEditDashboardButtonAdd" idtype="button" class="btn btn-primary" onclick="editDashboard()">Confirm</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Dialog add dashboard component -->
+	<div class="modal fade" id="addDashboardComponent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-center">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">Add Dashboard Component</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<label for="comboAddDashboardComponent" class="control-label">Dashboard Component:</label> <select name="comboAddDashboardComponent" id="comboAddDashboardComponent">
+							</select>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button id="dialogAddDashboardComponentButtonClose" type="button" class="btn btn-default" data-dismiss="modal" onclick="closeAddDashboardComponent()">Close</button>
+					<button id="dialogAddDashboardComponentButtonAdd" idtype="button" class="btn btn-primary" onclick="addDashboardComponent()">Confirm</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Dialog delete dashboard component-->
+	<div class="modal fade" id="deleteDashboardComponent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-center">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">Delete Dashboard Component</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<h5>Are you sure you want to delete selected Dashboard Component?</h5>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button id="dialogDeleteDashboardComponentButtonClose" type="button" class="btn btn-default" data-dismiss="modal" onclick="closeDeleteDashboardComponent()">Close</button>
+					<button id="dialogDeleteDashboardComponentButtonOk" type="button" class="btn btn-primary" onclick="deleteDashboardComponent();">Confirm</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="jspf/footer">...</div>
+</body>
+</html>

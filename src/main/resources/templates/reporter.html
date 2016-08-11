@@ -1,0 +1,331 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:include="jspf/header">...</div>
+<link href="/css/reporter.css" rel="stylesheet" />
+<!-- Procesamiento de datos para Highcharts -->
+<script src="/js/napcharts.js"></script>
+<!--EASYTREE-->
+<script src="/js/easytree/jquery.easytree.min.js"></script>
+<link rel="stylesheet" href="/css/easytree/ui.easytree.css" />
+<!--SPLITPANE-->
+<script type="text/javascript" src="/js/splitpane/jquery-ui-latest.js"></script>
+<script type="text/javascript" src="/js/splitpane/jquery.layout-1.3.0.rc30.80.js"></script>
+<link href="/css/splitpane/layout-default-latest.css" rel="stylesheet" />
+<!--TABLE-->
+<script type="text/javascript" src="/js/datatables/jquery.dataTables.min.js"></script>
+<link href="/css/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css"></link>
+<!--X-EDITABLE-->
+<link href="/css/x-editable/bootstrap-editable.css" rel="stylesheet" />
+<script src="/js/x-editable/bootstrap-editable.min.js"></script>
+<!--DATETIMEPICKER-->
+<link href="/css/datetimepicker/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css"></link>
+<script src="/js/datetimepicker/bootstrap-datetimepicker.min.js?t=20130302"></script>
+<!-- HIGHCHARTS-->
+<script src="/js/highcharts/highcharts.js"></script>
+<script src="/js/highcharts/exporting.js"></script>
+<!-- FILESAVER-->
+<script src="/js/filesaver/FileSaver.min.js"></script>
+<!-- DATEJS-->
+<script src="/js/datejs/date.js"></script>
+<!-- JSPDF-->
+<script src="/js/jspdf/jspdf.min.js"></script>
+<script src="/js/jspdf/jspdf.plugin.autotable.js"></script>
+</head>
+<body>
+	<div th:include="jspf/toolbar">...</div>
+	<script th:inline="javascript">
+		var offsetInMillis = [[${Time_Zone_Offset}]];
+		var reportTemplatesDomain = [[${domain}]];
+	</script>
+	<script src="/js/reporter.js"></script>
+	<div id="layoutNetwork" class="layout-callis">
+		<div class="outer-center">
+			<div class="middle-center">
+				<div id="order" class="inner-layout-container">
+					<div class="inner-center" style="padding: 5px">
+						<div id="chartPanel" class="hcContenedor"></div>
+					</div>
+					<div class="ui-layout-south" style="overflow-y: auto">
+						<div class="well">
+							<div class="template-toolbar-properties">
+								<div id="buttonExecuteQuery" class="btn template-run-ico template-toolbar-button" onclick="executeReportTemplate()" title="Execute template"></div>
+								<div id="buttonStopQuery" class="btn template-cancel-ico template-toolbar-button" onclick="killQuery()" title="Stop template"></div>
+								<div id="buttonExportData" class="btn template-export-ico template-toolbar-button" onclick="exportDataOptions()" title="Export template results"></div>
+								<div id="buttonExportHistogramData" class="btn template-export-histogram-specific-ico template-toolbar-button" onclick="exportHistogramData()" title="Export histogram specific data"></div>
+								<div id="buttonExportSingleQueryURL" class="btn template-export-parameters-ico template-toolbar-button" onclick="exportSingleQueryURL()" title="Export template parameters to URL"></div>
+								<div id="iconLoading" class="btn template-executing-query-ico template-toolbar-buttonimg htm"></div>
+							</div>
+							<div>
+								<table id="tableProperties" class="table table-bordered">
+									<thead>
+										<tr>
+											<th>Property</th>
+											<th>Value</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td></td>
+											<td><a href="#" id="attributeText" data-type="text" data-pk="1" data-title="Enter username">superuser</a></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td><a href="#" id="attributeCombo" data-type="select" data-pk="1" data-title="Select status"></a></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td><a href="#" id="attributeDatetime" data-type="datetime" data-pk="1" title="Select date and time">15/03/2013 12:45</a></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td><a href="#" id="attributeChecklist" data-type="checklist" data-pk="1" data-title="Select options"></a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="engine" class="inner-layout-container">
+					<div class="inner-center" style="overflow: auto">
+						<div class="template-toolbar-properties">
+							<div id="buttonExportTableData" class="btn template-export-ico template-toolbar-button" onclick="exportTableDataOptions()" title="Export"></div>
+						</div>
+						<table id="tableReport" class="display table table-striped" cellspacing="0" width="100%">
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="middle-west">
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="active">
+						<div class="btn-group" role="group" aria-label="...">
+							<button id="addReportTemplateInstance" type="button" disabled="true" class="btn btn-default" data-toggle="modal" data-target="#addReportInstance" data-whatever="@mdo" title="Add new Report Instance">
+								<image src="/img/report/add.png" />
+							</button>
+							<button id="deleteReportTemplateInstance" type="button" disabled="true" class="btn btn-default" data-toggle="modal" data-target="#deleteReportInstance" data-whatever="@mdo" title="Delete selected Report Instance">
+								<image src="/img/report/cross.png" />
+							</button>
+							<button id="editReportTemplateInstance" type="button" disabled="true" class="btn btn-default" data-toggle="modal" data-target="#editReportInstance" data-whatever="@mdo" title="Edit selected Report Instance">
+								<image src="/img/report/pencil.png" />
+							</button>
+							<button id="duplicateReportTemplateInstance" type="button" disabled="true" class="btn btn-default" data-toggle="modal" data-target="#duplicateReportInstance" data-whatever="@mdo" title="Duplicate selected Report Instance">
+								<image src="/img/report/duplicate.png" />
+							</button>
+						</div>
+					</li>
+				</ul>
+				<div id="demoTree" class="treeScrollReporter">
+					<ul>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!-- Tabla de resultados de los reportes -->
+	<div id='divResults'>
+		<table id='tableResults' class="display table table-striped" cellspacing="0" width="100%">
+			<thead>
+				<tr></tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+	<!-- Dialog add report template instance-->
+	<div class="modal fade" id="addReportInstance" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-center">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">Add Report Instance</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<label for="reportTemplateInstanceName" class="control-label">Name:</label> <input type="text" class="form-control" id="reportTemplateInstanceName" />
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button id="dailogAddReportTemplateInstanceButtonClose" type="button" class="btn btn-default" data-dismiss="modal" onclick="closeAddReportTemplateInstance();">Close</button>
+					<button id="dailogAddReportTemplateInstanceButtonAdd" idtype="button" class="btn btn-primary" onclick="addReportTemplateInstance()">Create</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Fin dialog add report template instance-->
+	<!-- Dialog edit report template instance-->
+	<div class="modal fade" id="editReportInstance" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-center">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">Edit Report Instance</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<label for="newReportTemplateInstanceName" class="control-label">Name:</label> <input type="text" class="form-control" id="newReportTemplateInstanceName" />
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button id="dialogEditReportTemplateInstanceButtonClose" type="button" class="btn btn-default" data-dismiss="modal" onclick="closeEditReportTemplateInstance();">Close</button>
+					<button id="dialogEditReportTemplateInstanceButtonConfirm" type="button" class="btn btn-primary" onclick="editReportTemplateInstance();">Confirm</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Fin dialog edit report template instance-->
+	<!-- Dialog duplicate report template instance-->
+	<div class="modal fade" id="duplicateReportInstance" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-center">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">Duplicate Report Instance</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<label for="reportTemplateInstanceName" class="control-label">Name:</label> <input type="text" class="form-control" id="reportTemplateInstanceNameDuplicated" />
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button id="dailogDuplicateReportTemplateInstanceButtonClose" type="button" class="btn btn-default" data-dismiss="modal" onclick="closeDuplicateReportTemplateInstance();">Close</button>
+					<button id="dailogDuplicateReportTemplateInstanceButtonDuplicate" type="button" class="btn btn-primary" onclick="duplicateReportTemplateInstance();">Duplicate</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Fin dialog duplicate report template instance-->
+	<!-- Dialog delete report template instance-->
+	<div class="modal fade" id="deleteReportInstance" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-center">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">Delete Report Instance</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<h5>Are you sure delete report instance?</h5>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button id="dailogDeleteReportTemplateInstanceButtonClose" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button id="dailogDeleteReportTemplateInstanceButtonOk" type="button" class="btn btn-primary" onclick="deleteReportTemplateInstance();">Ok</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Fin dialog delete report template instance-->
+	<!-- Dialog alert no resultado report template instance-->
+	<div class="modal fade" id="alertReportInstance" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-center">
+			<div class="modal-content modal-dialog-size">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">Alert</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<h5 id="msgAlertNoResult">No data found for current report selections</h5>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button id="dailogAlertReportInstanceButtonClose" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Fin dialog alert no resultado report template instance-->
+	<!-- Dialog export data -->
+	<div class="modal fade" id="exportDataOptions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-center">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">Export Options</h4>
+				</div>
+				<div class="modal-body">
+					<form id="formExportDataOptions">
+						<div class="form-group">
+							<label>Template Info</label> <br /> <input type='checkbox' style='vertical-align: top' name='includeTemplateInfo' /> Include Template information
+						</div>
+						<div class="form-group">
+							<label>Headers</label> <br /> <input type='checkbox' style='vertical-align: top' name='includeHeaders' /> Include column headers
+						</div>
+						<div class="form-group">
+							<label>Timestamp format</label> <br /> <input type="radio" name="timestamp" value="milliseconds" checked="checked" /> Milliseconds <br /> <input type="radio" name="timestamp" value="date" /> Date - Format: <input type="text" placeholder="MM/dd/yyyy HH:mm:ss" name="dateRegex" />
+						</div>
+						<div class="form-group">
+							<label>Export file format</label> <br /> <input type="radio" name="fileFormat" value="csv" checked="checked" /> CSV File <br /> <input type="radio" name="fileFormat" value="pdf" /> PDF File - Paper Size: <input type="text" style="width: 50px" placeholder="210" name="paperWidth" /> x <input type="text" style="width: 50px" placeholder="297" name="paperHeight" /> millimeters
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button id="exportDataOptionsButtonClose" type="button" class="btn btn-default" data-dismiss="modal" onclick="closeExportDataOptions();">Close</button>
+					<button id="exportDataOptionsButtonExport" type="button" class="btn btn-primary" onclick="exportData();">Export</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Fin dialog export data -->
+	<!-- Dialog export table data -->
+	<div class="modal fade" id="exportTableDataOptions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-center">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="exampleModalLabel">Export Options</h4>
+				</div>
+				<div class="modal-body">
+					<form id="formExportTableDataOptions">
+						<div class="form-group">
+							<label>Headers</label> <br /> <input type='checkbox' style='vertical-align: top' name='includeHeaders' /> Include column headers
+						</div>
+						<div class="form-group">
+							<label>Timestamp format</label> <br /> <input type="radio" name="timestamp" value="milliseconds" checked="checked" /> Milliseconds <br /> <input type="radio" name="timestamp" value="date" /> Date - Format: <input type="text" placeholder="MM/dd/yyyy HH:mm:ss" name="dateRegex" />
+						</div>
+						<div class="form-group">
+							<label>Export file format</label> <br /> <input type="radio" name="fileFormat" value="csv" checked="checked" /> CSV File <br /> <input type="radio" name="fileFormat" value="pdf" /> PDF File - Paper Size: <input type="text" style="width: 50px" placeholder="297" name="paperWidth" /> x <input type="text" style="width: 50px" placeholder="210" name="paperHeight" /> millimeters
+						</div>
+						<div class="form-group">
+							<label>Columns:</label> <br />
+							<div id="exportColumns"></div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button id="exportTableDataOptionsButtonClose" type="button" class="btn btn-default" data-dismiss="modal" onclick="closeExportTableDataOptions();">Close</button>
+					<button id="exportTableDataOptionsButtonExport" type="button" class="btn btn-primary" onclick="exportTableData();">Export</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Fin dialog export table data -->
+	<jsp:include page="/WEB-INF/jspf/footer.jsp" />
+</body>
+</html>

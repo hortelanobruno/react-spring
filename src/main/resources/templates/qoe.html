@@ -1,0 +1,38 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:include="jspf/header">...</div>
+<link href="/css/qoe.css" rel="stylesheet" />
+</head>
+<body>
+	<div th:include="jspf/toolbar">...</div>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="main">
+				<ol id="orderedListBar" class="breadcrumb">
+					<!--<li class="active"><a id="buttonHome" onclick="showHome()" style="display: block">Home</a></li>-->
+				</ol>
+				<a id="buttonVTUR" onclick="viewType('VTUR')" class="btn btn-primary btn-lg active" role="button" style="display: none">QoE Video Transaction</a> <a id="buttonHTUR" onclick="viewType('HTUR')" class="btn btn-primary btn-lg active" role="button" style="display: none">QoE HTTP Transaction</a> <a id="buttonSUR" onclick="viewType('SUR')" class="btn btn-primary btn-lg active" role="button" style="display: none">QoE Subscriber usage</a> <a id="buttonDevice" onclick="viewType('DEVICE')"
+					class="btn btn-primary btn-lg active" role="button" style="display: none">Device usage</a>
+			</div>
+		</div>
+	</div>
+	<div th:include="jspf/footer">...</div>
+	<script th:inline="javascript">
+	    var viewTypeQoE = [[${viewType}]];
+	</script>
+	<script src="/js/qoe.js"></script>
+	<!--Tabla char type-->
+	<div id="divTabla" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main dataTable">
+		<h1 id="titulo" class="page-header">no se ve</h1>
+		<h2 id="timestamp" class="sub-header"></h2>
+		<div class="table-responsive">
+			<div class="animate-switch-container">
+				<div class="animate-switch">
+					<table id="tabla" class="table table-striped">
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,1421 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>CSM Analytics Settings</title>
+<meta charset="utf-8" />
+<div th:include="jspf/header">...</div>
+<link href="/css/index.css" rel="stylesheet" />
+<script src="/js/index.js"></script>
+<link href="/css/newtemplate/ServiceEditor.css" rel="stylesheet" />
+<link href="/css/newtemplate/TreeAndForm.css" rel="stylesheet" />
+<link href="/css/newtemplate/animate.min.css" rel="stylesheet" />
+<link href="/css/datatables/dataTables.bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+	<div id="wrapper">
+		<div th:include="jspf/toolbar">...</div>
+		<div class="titleHeader">
+			<div class="page-header">
+				<h1>CSM Analytics Settings</h1>
+			</div>
+		</div>
+		<div class="columnContentTabs">
+			<ul class="nav nav-tabs">
+				<li role="presentation" class="active"><a href="#RDRSettings">RDR Settings</a></li>
+				<li role="presentation"><a href="#IPDRSettings">IPDR Settings</a></li>
+				<li role="presentation"><a href="#DataRecords">Data Records Config</a></li>
+				<li role="presentation"><a href="#CSVManager">CSV Config</a></li>
+				<li role="presentation"><a href="#DBManager">DB Config</a></li>
+				<li role="presentation"><a href="#RTAConfig">RTA Config</a></li>
+				<li role="presentation"><a href="#PeriodicConfig">Periodic Config</a></li>
+				<li role="presentation"><a href="#Others">Others</a></li>
+			</ul>
+			<div class="tab-content form-horizontal">
+				<div id="RDRSettings" class="tab-pane fade in active">
+					<div class="contentliquidInTable" id="FormRDRSettings">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Port:</label>
+										<div class="col-xs-8">
+											<input id="RDRPort" type="text" name="RDRPort" title="Click to edit" size="17" value="" onclick="editRDRSettings();" class="form-control cursorDefault" />
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Queue Depth:</label>
+										<div class="col-xs-8">
+											<input id="queueDepth" type="text" title="Click to edit" name="queueDepth" onclick="editRDRSettings();" size="17" value="" class="form-control cursorDefault" />
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Time Out:</label>
+										<div class="col-xs-8">
+											<input id="timeout" type="text" title="Click to edit" name="timeout" onclick="editRDRSettings();" size="17" value="" class="form-control cursorDefault" />
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Allowed Types:</label>
+										<div class="col-xs-8">
+											<div class="controls2" id="AllowedTypeActions" style="display: none">
+												<button id="addType" title="Add Allowed Type" type="button" class="btn btn-default" data-whatever="@mdo" onclick="modalAddAllowed('allowedTypes', 'Add Allowed Type', 'Allowed Type:');">
+													<img src="../img/report/add.png" />
+												</button>
+												<button id="buttonremoveAllowedType" title="Delete Allowed Type" type="button" class="btn btn-default" data-whatever="@mdo" onclick="modalDeleteAllowed('#allowedTypes', '#buttonremoveAllowedType');" disabled="disabled">
+													<img src="../img/report/cross.png" />
+												</button>
+												<br /> <br />
+											</div>
+											<select multiple="multiple" id="allowedTypes" title="Click to edit" style="overflow: auto; height: auto; min-height: 300px;" class="form-control cursorDefault" name="allowedTypes" onchange="selects(this, '#buttonremoveAllowedType');" onclick="editRDRSettings();">
+											</select>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-6">
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Enable&nbsp;Agregator:</label>
+										<div class="col-xs-8">
+											<input id="enableAggregator" type="checkbox" title="Click to edit" name="enableAggregator" onclick="editRDRSettings();" value="" class="checkbox cursorDefault" />
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">SCABB&nbsp;Version&nbsp;Default:</label>
+										<div class="col-xs-8">
+											<select id="defaultScabbVersion" name="defaultScabbVersion" title="Click to edit" class="form-control cursorDefault" onclick="editRDRSettings();">
+												<option value="v36x">v36x</option>
+												<option value="v41x">v41x</option>
+											</select>
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<div class="col-xs-12">
+											<label class="control-label col-sm-4">SCABB Version:</label> <br /> <br />
+											<div class="controls2" id="SCABBVersion" style="display: none">
+												<button id="addSCABBVersion" title="Add SCABB Version" type="button" class="btn btn-default" data-whatever="@mdo" onclick="addSCABBVersion();">
+													<img src="../img/report/add.png" />
+												</button>
+												<button id="buttonremoveSCABBVersion" title="Delete SCABB Version" onclick="modalForTableDelete('Delete SCABB Version', 'scabbVersions');" type="button" class="btn btn-default" data-whatever="@mdo">
+													<img src="../img/report/cross.png" />
+												</button>
+												<button id="editSCABBVersion" type="button" class="btn btn-default" onclick="editSCABBVersion();" data-whatever="@mdo">
+													<img src="../img/report/pencil.png" />
+												</button>
+												<br /> <br />
+											</div>
+											<div class="panel panel-default" style="border: none;">
+												<div class="panel-body">
+													<div class="table-responsive">
+														<table id="scabbVersions" title="Click to edit" class="table table-bordered table-style-custom" onclick="editRDRSettings();">
+															<thead>
+																<tr>
+																	<th>IP&nbsp;Address</th>
+																	<th>SCA&nbsp;BB&nbsp;Version</th>
+																</tr>
+															</thead>
+															<tbody id="scabbVersionsTbody" class="padding-scabbVersions">
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-actions marginLeft" id="actions-RDR" style="display: none">
+							<input class="btn btn-success" name="save" type="button" value="Save" onclick="saveRDRSettings();" />&nbsp;<span id="buttonCancelEditRDR"></span>
+						</div>
+						<div class="alert alert-danger" id="alertRDR" style="display: none;">
+							<a href="#" class="close" onclick="$('#alertRDR').hide();">&times;</a> <strong>Warning!</strong>
+							<p>Save no successfully.</p>
+							<span id="pRDR"></span>
+						</div>
+					</div>
+				</div>
+				<div id="IPDRSettings" class="tab-pane fade">
+					<div class="contentliquidInTable" id="FormIPDRSettings">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">IP:</label>
+										<div class="col-xs-8">
+											<input id="ipIPDR" type="text" name="ipIPDR" title="Click to edit" size="17" value="" onclick="editIPDRSettings();" class="form-control cursorDefault" />
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Port:</label>
+										<div class="col-xs-8">
+											<input id="portIPDR" type="text" title="Click to edit" name="portIPDR" onclick="editIPDRSettings();" size="17" value="" class="form-control cursorDefault" />
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Enable&nbsp;Agregator:</label>
+										<div class="col-xs-8">
+											<input id="enableAgregatorIPDR" type="checkbox" title="Click to edit" name="enableAgregatorIPDR" onclick="editIPDRSettings();" value="" class="checkbox cursorDefault" />
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-6">
+									<div class="form-group form-group-custom">
+										<div class="col-xs-12">
+											<label class="control-label">CMTS:</label> <br /> <br />
+											<div class="controls2" id="CMTSActions" style="display: none">
+												<button id="addCMTS" title="Add Allowed Tags CMTS" type="button" class="btn btn-default" onclick="addCMTS();" data-whatever="@mdo">
+													<img src="../img/report/add.png" />
+												</button>
+												<button id="buttonremoveCMTS" title="Delete CMTS" onclick="modalForTableDelete('Delete CMTS', 'cmtss');" type="button" class="btn btn-default" data-whatever="@mdo">
+													<img src="../img/report/cross.png" />
+												</button>
+												<button id="editCMTS" type="button" class="btn btn-default" onclick="editCMTS()" data-whatever="@mdo">
+													<img src="../img/report/pencil.png" />
+												</button>
+												<br /> <br />
+											</div>
+											<div class="panel panel-default" style="border: none;">
+												<div class="panel-body">
+													<div class="table-responsive">
+														<table id="cmtss" title="Click to edit" class="table table-bordered table-style-custom" onclick=" editIPDRSettings();">
+															<thead>
+																<tr>
+																	<th>IP</th>
+																	<th>Port</th>
+																	<th>Vendor</th>
+																	<th>IP&nbsp;DR&nbsp;Enabled</th>
+																</tr>
+															</thead>
+															<tbody id="cmtssTbody" class="padding-cmtss">
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-actions marginLeft" id="action-IPDRSettings" style="display: none">
+							<input class="btn btn-success" name="save" type="button" value="Save" onclick="saveIPDRSettings();" />&nbsp;<span id="cancelEdit-IPDR"></span>
+						</div>
+						<div class="alert alert-danger" id="alertIPDR" style="display: none;">
+							<a href="#" class="close" onclick="$('#alertIPDR').hide();">&times;</a> <strong>Warning!</strong>
+							<p>Save no successfully.</p>
+							<span id="pIPDR"></span>
+						</div>
+					</div>
+				</div>
+				<div id="CSVManager" class="tab-pane fade">
+					<div class="contentliquidInTable">
+						<div class="headerUtilInTab">
+							<button id="addCSV" type="button" class="btn btn-default" onclick="addCSVForTable()" data-whatever="@mdo">
+								<img src="../img/report/add.png" />
+							</button>
+							<button id="removeCSV" type="button" class="btn btn-default" onclick="modalForTableDelete('Delete CSV', 'CSVTable');" data-whatever="@mdo">
+								<img src="../img/report/cross.png" />
+							</button>
+							<button id="editCSV" type="button" class="btn btn-default" onclick="editCSV();" data-whatever="@mdo">
+								<img src="../img/report/pencil.png" />
+							</button>
+						</div>
+						<br />
+						<div class="panel panel-default" style="border: none;">
+							<div class="panel-body">
+								<div class="table-responsive">
+									<table id="CSVTable" class="table table-bordered table-style-custom">
+										<thead>
+											<tr>
+												<th>Detail Record Type</th>
+												<th>Separator</th>
+												<th>Include Headers Info</th>
+												<th>Source IP Format</th>
+												<th>TT Format</th>
+												<th>TT Pattern</th>
+											</tr>
+										</thead>
+										<tbody id="CSVtbody" class="padding-CSV">
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<div class="alert alert-danger" id="alertCSVManager" style="display: none;">
+							<a href="#" class="close" onclick="$('#alertCSVManager').hide();">&times;</a> <strong>Warning!</strong>
+							<p>Save no successfully.</p>
+							<span id="pCSVManager"></span>
+						</div>
+					</div>
+				</div>
+				<div id="DataRecords" class="tab-pane fade">
+					<div class="contentliquidInTable" id="FormCSVManager">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Enable PYC:</label>
+										<div class="col-xs-6">
+											<input id="PYCRenebleAgregator" type="checkbox" title="Click to edit" name="IPDRenebleAgregator" onclick="editRTAS();" value="" class="checkbox cursorDefault" />
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Allowed Tags PYC:</label>
+										<div class="col-xs-6">
+											<div class="controls2" id="PYCActions" style="display: none">
+												<button id="addPYC" title="Add Allowed Tags PYC" type="button" class="btn btn-default" data-whatever="@mdo" onclick="addPYC();">
+													<img src="../img/report/add.png" />
+												</button>
+												<button id="buttonremovePYC" title="Delete Allowed Tags PYC" type="button" class="btn btn-default" data-whatever="@mdo" onclick="modalDeleteAllowed('#AllowedTagsPYC', '#buttonremovePYC');" disabled="disabled">
+													<img src="../img/report/cross.png" />
+												</button>
+												<br /> <br />
+											</div>
+											<select multiple="multiple" id="AllowedTagsPYC" title="Click to edit" style="overflow: auto; height: auto; min-height: 150px;" class="form-control cursorDefault" name="PYC" onchange="selects(this, '#buttonremovePYC');" onclick=" editRTAS();">
+											</select>
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Enable CSV Manager:</label>
+										<div class="col-xs-6">
+											<input id="EnableCSV" type="checkbox" title="Click to edit" name="EnableCSV" onclick="editRTAS();" value="" class="checkbox cursorDefault" />
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Allowed Tags CSV Manager:</label>
+										<div class="col-xs-6">
+											<div class="controls2" id="CSVActions" style="display: none">
+												<button id="addCSV" title="Add Allowed Tags CSV" type="button" class="btn btn-default" data-whatever="@mdo" onclick="addCSV();">
+													<img src="../img/report/add.png" />
+												</button>
+												<button id="buttonremoveCSV" title="Delete Allowed Tags CSV" type="button" class="btn btn-default" data-whatever="@mdo" onclick="modalDeleteAllowed('#AllowedTagsCSV', '#buttonremoveCSV');" disabled="disabled">
+													<img src="../img/report/cross.png" />
+												</button>
+												<br /> <br />
+											</div>
+											<select multiple="multiple" id="AllowedTagsCSV" title="Click to edit" style="overflow: auto; height: auto; min-height: 150px;" class="form-control cursorDefault" name="CMTS" onchange="selects(this, '#buttonremoveCSV');" onclick="editRTAS()">
+											</select>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-6">
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Enable DB Manager:</label>
+										<div class="col-xs-6">
+											<input id="EnableDBManager" type="checkbox" title="Click to edit" name="IPDRenebleAgregator" onclick="editRTAS();" value="" class="checkbox cursorDefault" />
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Allowed Tags DB Manager:</label>
+										<div class="col-xs-6">
+											<div class="controls2" id="DBActions" style="display: none">
+												<button id="addDB" title="Add Allowed Tags DB" type="button" class="btn btn-default" data-whatever="@mdo" onclick="addDB();">
+													<img src="../img/report/add.png" />
+												</button>
+												<button id="buttonremoveDB" title="Delete Allowed Tags DB" type="button" class="btn btn-default" data-whatever="@mdo" onclick="modalDeleteAllowed('#AllowedTagsDBManager', '#buttonremoveDB');" disabled="disabled">
+													<img src="../img/report/cross.png" />
+												</button>
+												<br /> <br />
+											</div>
+											<select multiple="multiple" id="AllowedTagsDBManager" title="Click to edit" style="overflow: auto; height: auto; min-height: 150px;" class="form-control cursorDefault" name="CMTS" onchange="selects(this, '#buttonremoveDB');" onclick="editRTAS();">
+											</select>
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Enable RTA Manager:</label>
+										<div class="col-xs-6">
+											<input id="enebleRTA" type="checkbox" title="Click to edit" name="IPDRenebleAgregator" onclick="editRTAS();" value="" class="checkbox cursorDefault" />
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Allowed Tags RTA Manager:</label>
+										<div class="col-xs-6">
+											<div class="controls2" id="RTAactions" style="display: none">
+												<button id="addRTA" title="Add Allowed Tags RTA" type="button" class="btn btn-default" data-whatever="@mdo" onclick="addRTA();">
+													<img src="../img/report/add.png" />
+												</button>
+												<button id="buttonremoveRTA" title="Delete Allowed Tags RTA" type="button" class="btn btn-default" data-whatever="@mdo" onclick="modalDeleteAllowed('#AllowedTagsRTA', '#buttonremoveRTA');" disabled="disabled">
+													<img src="../img/report/cross.png" />
+												</button>
+												<br /> <br />
+											</div>
+											<select multiple="multiple" id="AllowedTagsRTA" title="Click to edit" style="overflow: auto; height: auto; min-height: 150px;" class="form-control cursorDefault" name="CMTS" onchange="selects(this, '#buttonremoveRTA');" onclick="editRTAS();">
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-actions marginLeft" id="action-CSV" style="display: none">
+							<input class="btn btn-success" name="save" type="button" value="Save" onclick="saveDataRecordsConfig();" />&nbsp;<span id="cancelEdit-CSV"></span>
+						</div>
+						<div class="alert alert-danger" id="alertCSV" style="display: none;">
+							<a href="#" class="close" onclick="$('#alertCSV').hide();">&times;</a> <strong>Warning!</strong>
+							<p>Save no successfully.</p>
+							<span id="pCSV"></span>
+						</div>
+					</div>
+				</div>
+				<div id="DBManager" class="tab-pane fade">
+					<div class="contentliquidInTable" id="FormDBManager">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Mysql</label>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Url:</label>
+										<div class="col-xs-6">
+											<input id="url" type="text" name="url" title="Click to edit" size="17" value="" onclick="editDBManager();" class="form-control cursorDefault" />
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">User:</label>
+										<div class="col-xs-6">
+											<input id="user" type="text" title="Click to edit" name="user" onclick="editDBManager();" size="17" value="" class="form-control cursorDefault" />
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Password:</label>
+										<div class="col-xs-6">
+											<input id="password" type="text" title="Click to edit" name="password" onclick="editDBManager();" size="17" value="" class="form-control cursorDefault" />
+										</div>
+									</div>
+								</div>
+
+								<div class="col-sm-6">
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Mongo&nbsp;Interest</label>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">DB&nbsp;Name:</label>
+										<div class="col-xs-6">
+											<input id="DBName" type="text" title="Click to edit" name="DBName" onclick="editDBManager();" size="17" value="" class="form-control cursorDefault" />
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Table Name:</label>
+										<div class="col-xs-6">
+											<input id="tableName" type="text" title="Click to edit" name="tableName" onclick="editDBManager();" size="17" value="" class="form-control cursorDefault" />
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Suscriber Id Col:</label>
+										<div class="col-xs-6">
+											<input id="SuscriberIdCol" type="text" title="Click to edit" name="SuscriberIdCol" onclick="editDBManager();" size="17" value="" class="form-control cursorDefault" />
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Interest Id Col:</label>
+										<div class="col-xs-6">
+											<input id="InterestIdCol" type="text" title="Click to edit" name="InterestIdCol" onclick="editDBManager();" size="17" value="" class="form-control cursorDefault" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-actions marginLeft" id="DBManager-Actions" style="display: none">
+							<input class="btn btn-success" name="save" type="button" value="Save" onclick="saveDBManager();" />&nbsp;<span id="CancelEditDBManager"></span>
+						</div>
+						<div class="alert alert-danger" id="alertDBManager" style="display: none;">
+							<a href="#" class="close" onclick="$('#alertDBManager').hide();">&times;</a> <strong>Warning!</strong>
+							<p>Save no successfully.</p>
+							<span id="pDBManager"></span>
+						</div>
+					</div>
+				</div>
+				<div id="Others" class="tab-pane fade">
+					<div class="contentliquidInTable" id="FormOthers">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">CSM&nbsp;Config<a id='ajax-RefreshCSM' href='#' title='Refresh CSM Config' data-whatever='@mdo' onclick='refreshConfig("CSM", "CSMIP", "CSMPort");'><img src='/img/refresh.png' /></a><a class='ajaxLoader cursorDefault' id='ajax-loaderCSM' title='Refresh CSM Config' data-whatever='@mdo'><img style='-webkit-user-select: none;' src=' /img/ajax-loader.gif' /></a></label>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">IP:</label>
+										<div class="col-xs-8">
+											<input id="CSMIP" type="text" title="Click to edit" name="RMISERIP" onclick="editOthers();" size="17" value="" class="form-control cursorDefault" />
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Port:</label>
+										<div class="col-xs-8">
+											<input id="CSMPort" type="text" title="Click to edit" name="RMISERPort" onclick="editOthers();" size="17" value="" class="form-control cursorDefault" />
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">SEP&nbsp;Config<a id='ajax-RefreshSEP' href='#' title='Refresh SEP Config' data-whatever='@mdo' onclick='refreshConfig("SEP", "SepIP", "SepPort");'><img src=' /img/refresh.png' /></a><a class='ajaxLoader' id='ajax-loaderSEP cursorDefault' title='Refresh SEP Config' data-whatever='@mdo'><img style='-webkit-user-select: none;' src=' /img/ajax-loader.gif' /></a></label>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">IP:</label>
+										<div class="col-xs-8">
+											<input id="SepIP" type="text" title="Click to edit" name="RMISepIP" onclick="editOthers();" size="17" value="" class="form-control cursorDefault" />
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Port:</label>
+										<div class="col-xs-8">
+											<input id="SepPort" type="text" title="Click to edit" name="RMISepPort" onclick="editOthers();" size="17" value="" class="form-control cursorDefault" />
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-7">Notification&nbsp;Server&nbsp;Config<a id='ajax-RefreshNotification' href='#' title='Refresh Notification Server Config' data-whatever='@mdo' onclick='refreshConfig("Notification", "SERIP", "SERPort");'><img src=' /img/refresh.png' /></a><a class='ajaxLoader cursorDefault' id='ajax-loaderNotification' title='Refresh Notification Server Config' data-whatever='@mdo'><img style='-webkit-user-select: none;' src=' /img/ajax-loader.gif' /></a></label>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">IP:</label>
+										<div class="col-xs-8">
+											<input id="SERIP" type="text" title="Click to edit" name="RMISERIP" onclick="editOthers();" size="17" value="" class="form-control cursorDefault" />
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Port:</label>
+										<div class="col-xs-8">
+											<input id="SERPort" type="text" title="Click to edit" name="RMISERPort" onclick="editOthers();" size="17" value="" class="form-control cursorDefault" />
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">RMI&nbsp;Config</label>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">IP:</label>
+										<div class="col-xs-8">
+											<input id="RMIIP" type="text" name="RMIIP" title="Click to edit" size="17" value="" onclick="editOthers();" class="form-control cursorDefault" />
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Port:</label>
+										<div class="col-xs-8">
+											<input id="RMIPort" type="text" title="Click to edit" name="RMIPort" onclick="editOthers();" size="17" value="" class="form-control cursorDefault" />
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Service Name:</label>
+										<div class="col-xs-8">
+											<input id="RMIService" type="text" title="Click to edit" name="RMIService" onclick="editOthers();" size="17" value="" class="form-control cursorDefault" />
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">REST&nbsp;Config</label>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">IP:</label>
+										<div class="col-xs-8">
+											<input id="RestIP" type="text" title="Click to edit" name="RMIRestIP" onclick="editOthers();" size="17" value="" class="form-control cursorDefault" />
+										</div>
+									</div>
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Port:</label>
+										<div class="col-xs-8">
+											<input id="RestPort" type="text" title="Click to edit" name="RMIRestPort" onclick="editOthers();" size="17" value="" class="form-control cursorDefault" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-actions marginLeft" id="Others-Actions" style="display: none">
+							<input class="btn btn-success" name="save" type="button" value="Save" onclick="saveOthers();" />&nbsp;<span id="CancelEditOthers"></span>
+						</div>
+						<div class="alert alert-danger" id="alertOthers" style="display: none;">
+							<a href="#" class="close" onclick="$('#alertOthers').hide();">&times;</a> <strong>Warning!</strong>
+							<p>Save no successfully.</p>
+							<span id="pOthers"></span>
+						</div>
+					</div>
+				</div>
+				<div id="RTAConfig" class="tab-pane fade">
+					<div class="leftcolumn">
+						<div class="headerUtil">
+							<button id="addAdapter" title="Add RTA Adapter" type="button" class="btn btn-default" data-whatever="@mdo" onclick="addRTAAdapter()">
+								<img src="../img/report/add.png" />
+							</button>
+							<button id="buttonremoveAdapter" title="Delete RTA Adapter" type="button" onclick="$('#modalDeleteRTAAdapters').modal('show');" class="btn btn-default" data-whatever="@mdo" disabled="disabled">
+								<img src="../img/report/cross.png" />
+							</button>
+						</div>
+						<div class="columnContent">
+							<select multiple="multiple" id="selectRTAConfig" title="Click to edit" style="overflow: auto; min-height: 95%; height: auto;" class="form-control" name="selectRTAConfig" onchange="selectRTAConfig(this, '#buttonremoveAdapter');">
+							</select>
+						</div>
+					</div>
+					<div style="position: absolute; top: 14.5%; left: 26%; width: 73%;">
+						<ul class="nav nav-tabs">
+							<li role="presentation" class="active"><a href="#rtaGeneralConfig">General Configuration</a></li>
+							<li id="liRTAadvancedConfig" style="display: none" role="presentation"><a href="#rtaAdvancedConfig">Advanced Configuration</a></li>
+						</ul>
+					</div>
+					<div class="contentliquid" id="FormRTAConfig">
+						<div class="container-fluid">
+							<div class="tab-content form-horizontal">
+								<div id="rtaGeneralConfig" class="tab-pane fade in active">
+									<br />
+									<div class="col-sm-9">
+										<div class="form-group form-group-custom">
+											<label class="control-label col-sm-4">Enable:</label>
+											<div class="col-xs-8">
+												<input id="EnableRTAConfig" type="checkbox" title="Click to edit" name="EnableRTAConfig" onclick="editRTAConfig('');" value="" class="checkbox cursorDefault" />
+											</div>
+										</div>
+										<div class="form-group form-group-custom">
+											<label class="control-label col-sm-4">Type:</label>
+											<div class="col-xs-8">
+												<input id="typeRTA" type="text" title="Click to edit" name="typeRTA" onclick="editRTAConfig('');" size="17" value="" class="form-control cursorDefault" readonly="readonly" />
+											</div>
+										</div>
+										<div class="form-group form-group-custom">
+											<label class="control-label col-sm-4">Id:</label>
+											<div class="col-xs-8">
+												<input id="RTAID" type="text" title="Click to edit" name="RTAID" onclick="editRTAConfig('');" size="17" value="" class="form-control cursorDefault" />
+											</div>
+										</div>
+										<div class="form-group form-group-custom">
+											<label class="control-label col-sm-4">Granularity:</label>
+											<div class="col-xs-8">
+												<input id="granularity" type="text" title="Click to edit" name="granularity" onclick="editRTAConfig('');" size="17" value="" class="form-control cursorDefault" />
+											</div>
+										</div>
+										<div class="form-group form-group-custom">
+											<label class="control-label col-sm-4">Sources:</label>
+											<div class="col-xs-8">
+												<div class="controls2" id="RTAactionsSources" style="display: none">
+													<button id="addSources" title="Add Sources" type="button" class="btn btn-default" data-whatever="@mdo" onclick="addSources();">
+														<img src="../img/report/add.png" />
+													</button>
+													<button id="buttonremoveSources" title="Delete Sources" type="button" class="btn btn-default" data-whatever="@mdo" onclick="modalDeleteAllowed('#selectSources', '#buttonremoveSources');" disabled="disabled">
+														<img src="../img/report/cross.png" />
+													</button>
+													<br /> <br />
+												</div>
+												<select multiple="multiple" id="selectSources" title="Click to edit" style="overflow: auto;" class="form-control cursorDefault" name="selectSources" onchange="selects(this, '#buttonremoveSources');" onclick="editRTAConfig('');">
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div id="rtaAdvancedConfig" class="tab-pane fade">
+									<div id="RTAAdapterCategoryHitsConfiguration" style="display: none;">
+										<br />
+										<div class="col-sm-9">
+											<div class="form-group form-group-custom">
+												<label class="control-label col-sm-4">Granularity:</label>
+												<div class="col-xs-8">
+													<input id="calculationGranularity" type="text" title="Click to edit" name="calculationGranularity" onclick="editRTAConfig('RTAAdapterCategoryHitsConfiguration');" size="17" value="" class="form-control cursorDefault" />
+												</div>
+											</div>
+											<div class="form-group form-group-custom">
+												<label class="control-label col-sm-4">Allowed Categories:</label>
+												<div class="col-xs-8">
+													<div class="controls2" id="RTAactionsCategories" style="display: none">
+														<button id="addAllowedCategories" title="Add Allowed Categories" type="button" class="btn btn-default" data-whatever="@mdo" onclick="modalAddSelect('#allowedCategories', 'New Allowed Category', 'Allowed Category');">
+															<img src="../img/report/add.png" />
+														</button>
+														<button id="removeAllowedCategories" title="Delete Allowed Categories" type="button" class="btn btn-default" data-whatever="@mdo" onclick="modalDeleteAllowed('#allowedCategories', '#removeAllowedCategories');" disabled="disabled">
+															<img src="../img/report/cross.png" />
+														</button>
+														<br /> <br />
+													</div>
+													<select multiple="multiple" id="allowedCategories" title="Click to edit" style="overflow: auto;" class="form-control cursorDefault" name="allowedCategories" onchange="selects(this, '#removeAllowedCategories');" onclick="editRTAConfig('RTAAdapterCategoryHitsConfiguration');">
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="col-xs-12">
+											<div class="form-group form-group-custom">
+												<div class="col-xs-12">
+													<label class="control-label">Interest Conversion Key:</label> <br /> <br />
+													<div class="controls2" id="divInterestConversionKey" style="display: none">
+														<button id="addInterestConversion" title="Add Interest Conversion Key" type="button" class="btn btn-default" data-whatever="@mdo" onclick="addInterestConversionKey();">
+															<img src="../img/report/add.png" />
+														</button>
+														<button id="removeInterestConversion" title="Delete Interest Conversion Key" onclick="modalForTableDelete('Delete Interest Conversion Key', 'tableInterestConversionList');" type="button" class="btn btn-default" data-whatever="@mdo">
+															<img src="../img/report/cross.png" />
+														</button>
+														<button id="editInterestConversion" title="Edit Interest Conversion Key" type="button" class="btn btn-default" onclick="editInterestConversionKey();" data-whatever="@mdo">
+															<img src="../img/report/pencil.png" />
+														</button>
+														<br /> <br />
+													</div>
+													<div class="panel panel-default" style="border: none;">
+														<div class="panel-body">
+															<div class="table-responsive">
+																<table id="tableInterestConversionList" title="Click to edit" class="table table-bordered table-style-custom" onclick="editRTAConfig('RTAAdapterCategoryHitsConfiguration');">
+																	<thead>
+																		<tr>
+																			<th>Calification</th>
+																			<th>Value</th>
+																		</tr>
+																	</thead>
+																	<tbody id="interestConversionList" class="padding-interestConversionList">
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="RTAAdapterCategoryConfiguration" style="display: none;">
+										<br />
+										<div class="col-sm-9">
+											<div class="form-group form-group-custom">
+												<label class="control-label col-sm-4">Default Category Id:</label>
+												<div class="col-xs-8">
+													<input id="defaultCategoryId" type="text" title="Click to edit" name="defaultCategoryId" size="17" value="" class="form-control cursorDefault" />
+												</div>
+											</div>
+											<div class="form-group form-group-custom">
+												<label class="control-label col-sm-4">Min Downstream Allowed:</label>
+												<div class="col-xs-8">
+													<input id="minDownstreamAllowed" type="text" title="Click to edit" name="minDownstreamAllowed" size="17" value="" class="form-control cursorDefault" />
+												</div>
+											</div>
+											<div class="form-group form-group-custom">
+												<label class="control-label col-sm-4">Min Duration Allowed:</label>
+												<div class="col-xs-8">
+													<input id="minDurationAllowed" type="text" title="Click to edit" name="minDurationAllowed" size="17" value="" class="form-control cursorDefault" />
+												</div>
+											</div>
+											<div class="form-group form-group-custom">
+												<label class="control-label col-sm-4">Services:</label>
+												<div class="col-xs-8">
+													<div class="controls2" id="divServices" style="display: none">
+														<button id="addServices" title="Add Service" type="button" class="btn btn-default" data-whatever="@mdo" onclick="modalAddSelect('#services', 'New Service', 'Service Id');">
+															<img src="../img/report/add.png" />
+														</button>
+														<button id="removeServices" title="Delete Services" type="button" class="btn btn-default" data-whatever="@mdo" onclick="modalDeleteAllowed('#services', '#removeServices');" disabled="disabled">
+															<img src="../img/report/cross.png" />
+														</button>
+														<br /> <br />
+													</div>
+													<select multiple="multiple" id="services" title="Click to edit" style="overflow: auto;" class="form-control cursorDefault" name="services" onchange="selects(this, '#removeServices');">
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="col-xs-12">
+											<div class="form-group form-group-custom">
+												<div class="col-xs-12">
+													<label class="control-label">Categories:</label> <br /> <br />
+													<div class="controls2" id="divCategories" style="display: none">
+														<button id="addCategory" title="Add Category" type="button" class="btn btn-default" data-whatever="@mdo" onclick="addCategories();">
+															<img src="../img/report/add.png" />
+														</button>
+														<button id="removeCategory" title="Delete Category" onclick="modalForTableDelete('Delete Category', 'tableCategories');" type="button" class="btn btn-default" data-whatever="@mdo">
+															<img src="../img/report/cross.png" />
+														</button>
+														<button id="editCategory" title="Edit Category" type="button" class="btn btn-default" onclick="editCounterConsumptionConfiguration();" data-whatever="@mdo">
+															<img src="../img/report/pencil.png" />
+														</button>
+														<br /> <br />
+													</div>
+													<div class="panel panel-default" style="border: none;">
+														<div class="panel-body">
+															<div class="table-responsive">
+																<table id="tableCategories" title="Click to edit" class="table table-bordered table-style-custom">
+																	<thead>
+																		<tr>
+																			<th>Id</th>
+																			<th>Name</th>
+																			<th>Category&nbsp;Parent&nbsp;Id</th>
+																			<th>Min&nbsp;Value</th>
+																			<th>Max&nbsp;Value</th>
+																		</tr>
+																	</thead>
+																	<tbody id="tbodytableCategories">
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-9">
+											<div class="form-group form-group-custom">
+												<label class="control-label col-sm-4">Quality Conditions:</label>
+												<div class="col-xs-8">
+													<div class="controls2" id="divConditionElements" style="display: none">
+														<button id="addQualityCondition" title="Add Quality Condition" type="button" class="btn btn-default" data-whatever="@mdo" onclick="newQualityCondition();">
+															<img src="../img/report/add.png" />
+														</button>
+														<button id="removeQualityCondition" title="Delete Quality Condition" type="button" class="btn btn-default" data-whatever="@mdo" onclick="modalDeleteAllowed('#selectQualityConditions', '#removeQualityCondition');" disabled="disabled">
+															<img src="../img/report/cross.png" />
+														</button>
+														<br /> <br />
+													</div>
+													<select multiple="multiple" id="selectQualityConditions" title="Click to edit" style="overflow: auto;" class="form-control cursorDefault" name="selectQualityConditions" onchange="selectQualityConditions(this, '#removeQualityCondition');" onclick="editRTAConfig('RTAAdapterCategoryConfiguration');">
+													</select>
+												</div>
+											</div>
+											<div class="form-group form-group-custom">
+												<label class="control-label col-sm-4">Category Id:</label>
+												<div class="col-xs-8">
+													<input id="categoryId" type="text" title="Click to edit" name="categoryId" onclick="editRTAConfig('RTAAdapterCategoryConfiguration');" size="17" value="" class="form-control cursorDefault" /><label style="display: none;" id="labelCategoryId" class="alert alert-danger">The value is incorrect.</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-xs-12">
+											<div class="form-group form-group-custom">
+												<div class="col-xs-12">
+													<label class="control-label">Condition Elements:</label> <br /> <br />
+													<div class="controls2" id="divConditionElement" style="display: none">
+														<button id="addConditionElement" title="Add Condition Element" type="button" class="btn btn-default" data-whatever="@mdo" onclick="addConditionElement();">
+															<img src="../img/report/add.png" />
+														</button>
+														<button id="removeConditionElement" title="Delete Condition Element" onclick="modalForTableDelete('Delete Condition Element', 'tableConditionElement');" type="button" class="btn btn-default" data-whatever="@mdo">
+															<img src="../img/report/cross.png" />
+														</button>
+														<button id="editConditionElement" title="Edit Condition Element" type="button" class="btn btn-default" onclick="editConditionElement();" data-whatever="@mdo">
+															<img src="../img/report/pencil.png" />
+														</button>
+														<br /> <br />
+													</div>
+													<div class="panel panel-default" style="border: none;">
+														<div class="panel-body">
+															<div class="table-responsive">
+																<table id="tableConditionElement" title="Click to edit" class="table table-bordered table-style-custom" onclick="editRTAConfig('RTAAdapterCategoryConfiguration');">
+																	<thead>
+																		<tr>
+																			<th>Category&nbsp;Ids</th>
+																			<th>Operator</th>
+																			<th>Value</th>
+																		</tr>
+																	</thead>
+																	<tbody id="tbodyConditionElements">
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="RTAAdapterTopperConfiguration" style="display: none;">
+										<br />
+										<div class="col-sm-9">
+											<div class="form-group form-group-custom">
+												<label class="control-label col-sm-4">Process&nbsp;Uniq&nbsp;Subs:</label>
+												<div class="col-xs-8">
+													<input id="processUniqSubs" type="checkbox" title="Click to edit" name="processUniqSubs" onclick="editRTAConfig('');" value="" class="checkbox cursorDefault" />
+												</div>
+											</div>
+											<div class="form-group form-group-custom">
+												<label class="control-label col-sm-4">Min&nbsp;Allowed&nbsp;Hits:</label>
+												<div class="col-xs-8">
+													<input id="minAllowedHits" type="text" title="Click to edit" name="minAllowedHits" onclick="editRTAConfig('');" size="17" value="" class="form-control cursorDefault" />
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div id="RTAAdapterURLHitsConfiguration" style="display: none;">
+										<br />
+										<div class="col-sm-9">
+											<div class="form-group form-group-custom">
+												<label class="control-label col-sm-4">Services:</label>
+												<div class="col-xs-8">
+													<div class="controls2" id="divRTAactionsPackageIdsConsumptionConfiguration" style="display: none">
+														<button id="addService" title="Add Service" type="button" class="btn btn-default" data-whatever="@mdo" onclick="modalAddSelect('#selectServices', 'New Service', 'Service');">
+															<img src="../img/report/add.png" />
+														</button>
+														<button id="removeService" title="Delete Services" type="button" class="btn btn-default" data-whatever="@mdo" onclick="modalDeleteAllowed('#selectServices', '#removeService');" disabled="disabled">
+															<img src="../img/report/cross.png" />
+														</button>
+														<br /> <br />
+													</div>
+													<select multiple="multiple" id="selectServices" title="Click to edit" style="overflow: auto;" class="form-control cursorDefault" name="selectServices" onchange="selects(this, '#removeService');" onclick="editRTAConfig('RTAAdapterURLHitsConfiguration');">
+													</select>
+												</div>
+											</div>
+											<div class="form-group form-group-custom">
+												<label class="control-label col-sm-4">Groups URL Hits Configuration:</label>
+												<div class="col-xs-8">
+													<div class="controls2" id="RTAactionsURLHits" style="display: none">
+														<button id="addGroupsURLHits" title="Add URL Hits" type="button" class="btn btn-default" data-whatever="@mdo" onclick="$('#modalAddGroupURLHits').modal('show');">
+															<img src="../img/report/add.png" />
+														</button>
+														<button id="removeGroupsURLHits" title="Delete URL Hits" type="button" class="btn btn-default" data-whatever="@mdo" onclick="modalDeleteAllowed('#selectGroupURLHitsConfiguration', '#removeGroupsURLHits');" disabled="disabled">
+															<img src="../img/report/cross.png" />
+														</button>
+														<br /> <br />
+													</div>
+													<select multiple="multiple" id="selectGroupURLHitsConfiguration" title="Click to edit" style="overflow: auto;" class="form-control cursorDefault" name="selectGroupURLHitsConfiguration" onchange="selectGroupURLHitsConfiguration(this, '#removeGroupsURLHits');" onclick="editRTAConfig('RTAAdapterURLHitsConfiguration');">
+													</select>
+												</div>
+											</div>
+											<div class="form-group form-group-custom">
+												<label class="control-label col-sm-4">Id:</label>
+												<div class="col-xs-8">
+													<input id="groupURLsId" type="text" title="Click to edit" name="groupURLsId" onclick="editRTAConfig('RTAAdapterURLHitsConfiguration');" size="17" value="" class="form-control cursorDefault" />
+												</div>
+											</div>
+											<div class="form-group form-group-custom">
+												<label class="control-label col-sm-4">Group&nbsp;Name:</label>
+												<div class="col-xs-8">
+													<input id="groupURLsName" type="text" title="Click to edit" name="groupURLsName" onclick="editRTAConfig('RTAAdapterURLHitsConfiguration');" size="17" value="" class="form-control cursorDefault" />
+												</div>
+											</div>
+											<div class="form-group form-group-custom">
+												<label class="control-label col-sm-4">Category&nbsp;Id:</label>
+												<div class="col-xs-8">
+													<input id="groupURLsCategoryId" type="text" title="Click to edit" name="groupURLsCategoryId" onclick="editRTAConfig('RTAAdapterURLHitsConfiguration');" size="17" value="" class="form-control cursorDefault" />
+												</div>
+											</div>
+										</div>
+										<div class="col-xs-12">
+											<div class="form-group form-group-custom">
+												<div class="col-xs-12">
+													<label class="control-label">URL Hit Configuration:</label> <br /> <br />
+													<div class="controls2" id="divURLHit" style="display: none">
+														<button id="addURLHit" title="Add URL Hit" type="button" class="btn btn-default" data-whatever="@mdo" onclick="addURLHit();">
+															<img src="../img/report/add.png" />
+														</button>
+														<button id="removeURLHit" title="Delete URL Hit" onclick="modalForTableDelete('Delete url hit', 'tableURLHits');" type="button" class="btn btn-default" data-whatever="@mdo">
+															<img src="../img/report/cross.png" />
+														</button>
+														<button id="editURLHit" title="Edit URL Hit" type="button" class="btn btn-default" onclick="editURLHit();" data-whatever="@mdo">
+															<img src="../img/report/pencil.png" />
+														</button>
+														<br /> <br />
+													</div>
+													<div class="panel panel-default" style="border: none;">
+														<div class="panel-body">
+															<div class="table-responsive">
+																<table id="tableURLHits" title="Click to edit" class="table table-bordered table-style-custom" onclick="editRTAConfig('RTAAdapterURLHitsConfiguration');">
+																	<thead>
+																		<tr>
+																			<th>Source</th>
+																			<th>Server&nbsp;IP</th>
+																			<th>Server&nbsp;Port</th>
+																			<th>Access&nbsp;String</th>
+																			<th>Revolve&nbsp;Access&nbsp;String</th>
+																			<th>Info&nbsp;String</th>
+																			<th>Client&nbsp;IP</th>
+																			<th>Client&nbsp;Port</th>
+																		</tr>
+																	</thead>
+																	<tbody id="tbodyURLHit">
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div id="RTAAdapterURLCategoryConsumptionConfiguration" style="display: none;">
+										<br />
+										<div class="col-sm-9">
+											<div class="form-group form-group-custom">
+												<label class="control-label col-sm-4">Allowed Package Ids:</label>
+												<div class="col-xs-8">
+													<div class="controls2" id="divAllowedPackageIds" style="display: none">
+														<button id="addAllowedPackageIds" title="Add Allowed Package Id" type="button" class="btn btn-default" data-whatever="@mdo" onclick="modalAddSelect('#allowedPackageIds', 'New Allowed Package Id', 'Allowed Package Id');">
+															<img src="../img/report/add.png" />
+														</button>
+														<button id="removeAllowedPackageIds" title="Delete Allowed Package Ids" type="button" class="btn btn-default" data-whatever="@mdo" onclick="modalDeleteAllowed('#allowedPackageIds', '#removeAllowedPackageIds');" disabled="disabled">
+															<img src="../img/report/cross.png" />
+														</button>
+														<br /> <br />
+													</div>
+													<select multiple="multiple" id="allowedPackageIds" title="Click to edit" style="overflow: auto;" class="form-control cursorDefault" name="allowedPackageIds" onchange="selects(this, '#removeAllowedPackageIds');" onclick="editRTAConfig('RTAAdapterURLCategoryConsumptionConfiguration');">
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="col-xs-12">
+											<div class="form-group form-group-custom">
+												<div class="col-xs-12">
+													<label class="control-label">Counter&nbsp;URL&nbsp;Category&nbsp;Consumption&nbsp;Configuration:</label> <br /> <br />
+													<div class="controls2" id="divCounterConsumptionConfiguration" style="display: none">
+														<button id="addCounterURLCategoryConsumptionConfiguration" title="Add Counter URL Category Consumption Configuration" type="button" class="btn btn-default" data-whatever="@mdo" onclick="addCounterURLCategoryConsumptionConfiguration();">
+															<img src="../img/report/add.png" />
+														</button>
+														<button id="removeCounterURLCategoryConsumptionConfiguration" title="Delete Counter URL Category Consumption Configuration" onclick="modalForTableDelete('Delete Counter URL Category Consumption Configuration', 'tableCounters');" type="button" class="btn btn-default" data-whatever="@mdo">
+															<img src="../img/report/cross.png" />
+														</button>
+														<button id="editCounterURLCategoryConsumptionConfiguration" title="Edit Counter URL Category Consumption Configuration" type="button" class="btn btn-default" onclick="editCounterURLCategoryConsumptionConfiguration();" data-whatever="@mdo">
+															<img src="../img/report/pencil.png" />
+														</button>
+														<br /> <br />
+													</div>
+													<div class="panel panel-default" style="border: none;">
+														<div class="panel-body">
+															<div class="table-responsive">
+																<table id="tableCounters" title="Click to edit" class="table table-bordered table-style-custom" onclick="editRTAConfig('RTAAdapterURLCategoryConsumptionConfiguration');">
+																	<thead>
+																		<tr>
+																			<th>Id</th>
+																			<th>Counter&nbsp;Id</th>
+																			<th>Category&nbsp;Ids</th>
+																			<th>All&nbsp;Categories</th>
+																			<th>Filter&nbsp;By&nbsp;Usage</th>
+																			<th>Min&nbsp;Usage&nbsp;Allowed</th>
+																		</tr>
+																	</thead>
+																	<tbody id="tbodyCounters">
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div id="RTAAdapterHeavyConsumptionConfiguration" style="display: none;">
+										<br />
+										<div class="col-sm-9">
+											<div class="form-group form-group-custom">
+												<label class="control-label col-sm-4">Allowed Package Ids:</label>
+												<div class="col-xs-8">
+													<div class="controls2" id="divAllowedPackageIdsConsumptionConfiguration" style="display: none">
+														<button id="addAllowedPackageIdsConsumptionConfiguration" title="Add Allowed Package Ids" type="button" class="btn btn-default" data-whatever="@mdo" onclick="modalAddSelect('#allowedPackageIdsConsumptionConfiguration', 'New Allowed Package Id', 'Allowed Package Id');">
+															<img src="../img/report/add.png" />
+														</button>
+														<button id="removeAllowedPackageIdsConsumptionConfiguration" title="Delete Allowed Package Ids" type="button" class="btn btn-default" data-whatever="@mdo" onclick="modalDeleteAllowed('#allowedPackageIdsConsumptionConfiguration', '#removeAllowedPackageIdsConsumptionConfiguration');" disabled="disabled">
+															<img src="../img/report/cross.png" />
+														</button>
+														<br /> <br />
+													</div>
+													<select multiple="multiple" id="allowedPackageIdsConsumptionConfiguration" title="Click to edit" style="overflow: auto;" class="form-control cursorDefault" name="allowedPackageIdsConsumptionConfiguration" onchange="selects(this, '#removeAllowedPackageIdsConsumptionConfiguration');" onclick="editRTAConfig('RTAAdapterHeavyConsumptionConfiguration');">
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="form-group form-group-custom">
+											<div class="col-xs-12">
+												<label class="control-label">Counter&nbsp;Consumption&nbsp;Configuration:</label> <br /> <br />
+												<div class="controls2" id="divConsumptionConfiguration" style="display: none">
+													<button id="addCounterConsumptionConfiguration" title="Add Counter Consumption Configuration" type="button" class="btn btn-default" data-whatever="@mdo" onclick="addCounterConsumptionConfiguration();">
+														<img src="../img/report/add.png" />
+													</button>
+													<button id="removeCounterConsumptionConfiguration" title="Delete Counter Consumption Configuration" onclick="modalForTableDelete('Delete Interest Conversion Key', 'tableCounterConsumptionConfiguration');" type="button" class="btn btn-default" data-whatever="@mdo">
+														<img src="../img/report/cross.png" />
+													</button>
+													<button id="editCounterConsumptionConfiguration" title="Edit Counter Consumption Configuration" type="button" class="btn btn-default" onclick="editCounterConsumptionConfiguration();" data-whatever="@mdo">
+														<img src="../img/report/pencil.png" />
+													</button>
+													<br /> <br />
+												</div>
+												<div class="panel panel-default" style="border: none;">
+													<div class="panel-body">
+														<div class="table-responsive">
+															<table id="tableCounterConsumptionConfiguration" title="Click to edit" class="table table-bordered table-style-custom" onclick="editRTAConfig('RTAAdapterHeavyConsumptionConfiguration');">
+																<thead>
+																	<tr>
+																		<th>Id</th>
+																		<th>Counter&nbsp;Id</th>
+																		<th>Service&nbsp;Ids</th>
+																		<th>All&nbsp;Services</th>
+																		<th>Filter&nbsp;By&nbsp;Downstream</th>
+																		<th>Min&nbsp;Downstream&nbsp;Allowed</th>
+																		<th>Filter&nbsp;By&nbsp;Upstream</th>
+																		<th>Min&nbsp;Upstream&nbsp;Allowed</th>
+																	</tr>
+																</thead>
+																<tbody id="counterConsumptionConfiguration">
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div id="RTAAdapterFlavorUpdaterConfiguration" style="display: none;">
+										<br />
+										<div class="col-sm-9">
+											<div class="form-group form-group-custom">
+												<label class="control-label col-sm-4">SEP&nbsp;Ip&nbsp;Address:</label>
+												<div class="col-xs-8">
+													<input id="sepIpAddress" type="text" title="Click to edit" name="sepIpAddress" onclick="editRTAConfig('RTAAdapterFlavorUpdaterConfiguration');" value="" class="form-control" />
+												</div>
+											</div>
+											<div class="form-group form-group-custom">
+												<label class="control-label col-sm-4">SEP&nbsp;Port:</label>
+												<div class="col-xs-8">
+													<input id="sepPort" type="text" title="Click to edit" name="sepPort" onclick="editRTAConfig('RTAAdapterFlavorUpdaterConfiguration');" size="17" value="" class="form-control" />
+												</div>
+											</div>
+											<div class="form-group form-group-custom">
+												<label class="control-label col-sm-4">Default&nbsp;Flavor&nbsp;Id:</label>
+												<div class="col-xs-8">
+													<input id="defaultFlavorId" type="text" title="Click to edit" name="defaultFlavorId" onclick="editRTAConfig('RTAAdapterFlavorUpdaterConfiguration');" size="17" value="" class="form-control" />
+												</div>
+											</div>
+											<div class="form-group form-group-custom">
+												<label class="control-label col-sm-4">New&nbsp;flavors&nbsp;count&nbsp;to&nbsp;apply&nbsp;in&nbsp;SEP:</label>
+												<div class="col-xs-8">
+													<input id="newFlavorsCountToApplyInSep" type="text" title="Click to edit" name="newFlavorsCountToApplyInSep" onclick="editRTAConfig('RTAAdapterFlavorUpdaterConfiguration');" size="17" value="" class="form-control" />
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="alert alert-danger" id="alertForRTAConfig" style="display: none;">
+							<a href="#" class="close" onclick="$('#alertForRTAConfig').hide();">&times;</a> <strong>Warning!</strong> <span id="pForRTAConfig"></span>
+						</div>
+						<div class="alert alert-danger" id="alertRTAConfig" style="display: none;">
+							<a href="#" class="close" onclick="$('#alertRTAConfig').hide();">&times;</a> <strong>Warning!</strong>
+							<p>Save no successfully.</p>
+							<span id="pRTAConfig"></span>
+						</div>
+					</div>
+				</div>
+				<div class="form-actions marginLeft" id="RTAConfig-Actions" style="display: none; bottom: 48px;">
+					<input class="btn btn-success" name="save" type="button" value="Save" onclick="saveRTAConfig();" />&nbsp;<span id="CancelEditRTAConfig"></span>
+				</div>
+				<div id="PeriodicConfig" class="tab-pane fade">
+					<div class="leftcolumn">
+						<div class="headerUtil">
+							<button id="addPeriodicConfig" onclick="$('#modalNewPeriodicDataRecordTask').modal({backdrop: 'static'});" title="Add Periodic" type="button" class="btn btn-default" data-whatever="@mdo">
+								<img src="../img/report/add.png" />
+							</button>
+							<button id="buttonremovePeriodicConfig" onclick="modalDeleteAllowed('#selectPeriodicConfig', '#buttonremovePeriodicConfig');" title="Delete Periodic" type="button" class="btn btn-default" data-whatever="@mdo" disabled="disabled">
+								<img src="../img/report/cross.png" />
+							</button>
+						</div>
+						<div class="columnContent">
+							<select multiple="multiple" id="selectPeriodicConfig" style="overflow: auto; min-height: 95%; height: auto;" class="form-control" name="selectPeriodicConfig" onchange="selectPeriodicDataRecordTasks(this, '#buttonremovePeriodicConfig');">
+							</select>
+						</div>
+					</div>
+					<div class="contentliquid" id="FormPeriodicConfig">
+						<br />
+						<div class="container-fluid">
+							<div class="col-sm-9">
+								<div class="form-group form-group-custom">
+									<label class="control-label col-sm-4">Enable:</label>
+									<div class="col-xs-8">
+										<input id="EnablePeriodicConfig" type="checkbox" title="Click to edit" name="EnablePeriodicConfig" onclick="editPeriodicConfig();" value="" class="checkbox" />
+									</div>
+								</div>
+								<div class="form-group form-group-custom">
+									<label class="control-label col-sm-4">Type:</label>
+									<div class="col-xs-8">
+										<input id="typePeriodic" type="text" title="Click to edit" name="typePeriodic" onclick="editPeriodicConfig();" size="17" value="" class="form-control cursorDefault" readonly="readonly" />
+									</div>
+								</div>
+								<div class="form-group form-group-custom">
+									<label class="control-label col-sm-4">Record Types:</label>
+									<div class="col-xs-8">
+										<div class="controls2" id="actionsRecordTypes" style="display: none">
+											<button id="addRecordTypes" title="Add Record Types" type="button" class="btn btn-default" data-whatever="@mdo" onclick="addRecordTypes();">
+												<img src="../img/report/add.png" />
+											</button>
+											<button id="buttonremoveRecordTypes" title="Delete Record Types" type="button" class="btn btn-default" data-whatever="@mdo" onclick="modalDeleteAllowed('#selectRecordTypes', '#buttonremoveRecordTypes');" disabled="disabled">
+												<img src="../img/report/cross.png" />
+											</button>
+											<br /> <br />
+										</div>
+										<select multiple="multiple" id="selectRecordTypes" title="Click to edit" style="overflow: auto;" class="form-control" name="selectSources" onchange="selects(this, '#buttonremoveRecordTypes');" onclick="editPeriodicConfig();">
+										</select>
+									</div>
+								</div>
+								<div class="form-group form-group-custom">
+									<label class="control-label col-sm-4">Cron Pattern:</label>
+									<div class="col-xs-8">
+										<input id="cronPattern" type="text" title="Click to edit" name="cronPattern" onclick="editPeriodicConfig();" size="17" value="" class="form-control" />
+									</div>
+								</div>
+								<div id="PeriodicRemovalTask" style="display: none;">
+									<div class="form-group form-group-custom">
+										<label class="control-label col-sm-4">Days:</label>
+										<div class="col-xs-8">
+											<input id="days" type="text" title="Click to edit" name="days" onclick="editPeriodicConfig();" value="" class="form-control" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="alert alert-danger" id="alertPeriodicConfig" style="display: none;">
+							<a href="#" class="close" onclick="$('#alertPeriodicConfig').hide();">&times;</a> <strong>Warning!</strong>
+							<p>Save no successfully.</p>
+							<span id="pPeriodicConfig"></span>
+						</div>
+						<div class="form-actions marginLeft" id="PeriodicConfig-Actions" style="display: none">
+							<input class="btn btn-success" name="save" type="button" value="Save" onclick="savePeriodicDataRecordTasks();" />&nbsp;<span id="CancelEditPeriodicConfig"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="modalAddSelect" class="modal fade" role="dialog" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" title="Close" onclick="$('#input-AddSelect').val('');" data-dismiss="modal">&times;</button>
+						<h4 id="modalTitleSelect" class="modal-title"></h4>
+					</div>
+					<input type="hidden" id="typeAddSelect" name="typeAddSelect" value="" />
+					<div class="modal-body form-horizontal">
+						<div class="form-group form-group-custom">
+							<label id="labelControlSelect" class="control-label col-sm-4"></label>
+							<div class="col-xs-6">
+								<input id="input-AddSelect" type="text" size="17" value="" class="form-control cursorDefault" /><label id="labelAlertSelect" class="alert alert-danger" style="display: none;">The value entered is incorrect.</label>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success" onclick="newAddValueSelect();">Ok</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" onclick="$('#input-AddSelect').val('');">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="modalForSelect" class="modal fade" role="dialog" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" title="Close" data-dismiss="modal">&times;</button>
+						<h4 id="modalTitleForSelect" class="modal-title"></h4>
+					</div>
+					<input type="hidden" id="typeForSelect" name="typeForSelect" value="" />
+					<div class="modal-body form-horizontal" id="divModalForSelect"></div>
+					<div class="modal-footer" id="buttonActions"></div>
+				</div>
+			</div>
+		</div>
+		<div id="modalAddAllowed" class="modal fade" role="dialog" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" title="Close" onclick="$('#AddAllowedSelectModal').val('');" data-dismiss="modal">&times;</button>
+						<h4 id="modalTitle" class="modal-title"></h4>
+					</div>
+					<input type="hidden" id="typeAddAllowed" name="typeAddAllowed" value="" />
+					<div class="modal-body form-horizontal">
+						<div class="form-group form-group-custom">
+							<label id="labelControl" class="control-label col-sm-4"></label>
+							<div class="col-xs-12">
+								<select multiple="multiple" id="AddAllowedSelectModal" style="overflow: auto; min-height: 60%; height: 300px; min-width: 50%; width: 530px;" class="form-control cursorDefault" name="AddAllowedSelectModal">
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success" data-dismiss="modal" onclick="newAddAllowed();">Ok</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" onclick="$('#AddAllowedSelectModal').val('');">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<select id="DetailRecordType" multiple="multiple" style="display: none;" th:field="*{DetailRecordTypes}">
+			<option th:each="type : ${DetailRecordTypes}" th:value="${type}" th:text="${type}">Wireframe</option>
+		</select>
+		<div id="modalDeleteAllowed" class="modal fade" role="dialog" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" title="Close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Remove</h4>
+					</div>
+					<input type="hidden" id="typeDeleteAllowed" name="typeDeleteAllowed" value="" /> <input type="hidden" id="idButtonRemove" name="idButtonRemove" value="" />
+					<div class="modal-body form-horizontal">
+						<div class="form-group form-group-custom">
+							<label>Are you sure you want to delete the selected?</label>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success" data-dismiss="modal" onclick="deleteAllowed();">Delete</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="modalForTable" class="modal fade" role="dialog" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" title="Close" onclick="" data-dismiss="modal">&times;</button>
+						<h4 id="modalTitleForTable" class="modal-title"></h4>
+					</div>
+					<input type="hidden" id="typeModalForTable" name="typeModalForTable" value="" /> <input type="hidden" id="isEdit" name="isEdit" value="" />
+					<div id="bodyForTable" class="modal-body form-horizontal identif"></div>
+					<div id="modalAddSelect2" class="modal fade" role="dialog" style="display: none;">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" title="Close" onclick="$('#modalAddSelect2').modal('hide');
+                                                $('#input-AddSelect2').val('');">&times;</button>
+									<h4 id="modalTitleSelect2" class="modal-title"></h4>
+								</div>
+								<input type="hidden" id="typeAddSelect2" name="typeAddSelect2" value="" />
+								<div class="modal-body form-horizontal">
+									<div class="form-group form-group-custom">
+										<label id="labelControlSelect2" class="control-label col-sm-4"></label>
+										<div class="col-xs-6">
+											<input id="input-AddSelect2" type="text" size="17" value="" class="form-control cursorDefault" /> <label id="errorInAddValue" style="display: none;" class="alert alert-danger">The value entered is incorrect.</label>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-success" onclick="newAddValueSelect2();">Ok</button>
+									<button type="button" class="btn btn-default" onclick="$('#modalAddSelect2').modal('hide');
+                                                $('#input-AddSelect2').val('');">Cancel</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="modalDelete2" class="modal fade" role="dialog" style="display: none;">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" title="Close" onclick="$('#modalDelete2').modal('hide');">&times;</button>
+									<h4 class="modal-title">Remove</h4>
+								</div>
+								<input type="hidden" id="typeDelete2" name="typeDelete2" value="" /> <input type="hidden" id="idButtonRemove2" name="idButtonRemove2" value="" />
+								<div class="modal-body form-horizontal">
+									<div class="form-group form-group-custom">
+										<label>Are you sure you want to delete the selected?</label>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-success" onclick="delete2();">Delete</button>
+									<button type="button" class="btn btn-default" onclick="$('#modalDelete2').modal('hide');">Cancel</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="alert alert-danger" id="alertForTable" style="display: none;">
+						<a href="#" class="close" onclick="$('#alertForTable').hide();">&times;</a> <strong>Warning!</strong> <span id="pForTable"></span>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success" onclick="newRowInTable();">Ok</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="modalForTableDelete" class="modal fade" role="dialog" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" title="Close" onclick="" data-dismiss="modal">&times;</button>
+						<h4 id="modalTitleForTableDelete" class="modal-title"></h4>
+					</div>
+					<input type="hidden" id="typeModalForTableDelete" name="typeModalForTableDelete" value="" />
+					<div id="bodyForTable" class="modal-body form-horizontal identif">
+						<label>Are you sure want to delete the selected row?</label>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success" data-dismiss="modal" onclick="deleteRowInTable();">Delete</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" onclick="">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="modalDeleteRTAAdapters" class="modal fade" role="dialog" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" title="Close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Delete RTA Adapter</h4>
+					</div>
+					<div class="modal-body form-horizontal">
+						<div class="form-group form-group-custom">
+							<label>Are you sure want to remove RTA Configuration?</label>
+						</div>
+						<select multiple="multiple" id="selectRTARemoves" style="display: none;" name="selectRTARemoves">
+						</select>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success" data-dismiss="modal" onclick="deleteRTAAdapters();">Delete</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="modalAddGroupURLHits" class="modal fade" role="dialog" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" title="Close" onclick="clearModalGroupURL();" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Add Group URL Hits</h4>
+					</div>
+					<div class="modal-body form-horizontal">
+						<div class="form-group form-group-custom">
+							<label class="control-label col-sm-4">Id:</label>
+							<div class="col-xs-6">
+								<input id="newGroupURLsId" type="text" size="17" value="" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group form-group-custom">
+							<label class="control-label col-sm-4">Name:</label>
+							<div class="col-xs-6">
+								<input id="newGroupURLsName" type="text" size="17" value="" class="form-control" />
+							</div>
+						</div>
+						<div class="form-group form-group-custom">
+							<label class="control-label col-sm-4">Category Id:</label>
+							<div class="col-xs-6">
+								<input id="newGroupURLsCategoryId" type="text" size="17" value="" class="form-control" />
+							</div>
+						</div>
+						<div class="alert alert-danger" id="alertAddGroupURLHits" style="display: none;">
+							<a href="#" class="close" onclick="$('#alertAddGroupURLHits').hide();">&times;</a> <strong>Warning!</strong> <span id="pAddGroupURLHits"></span>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success" onclick="newGroupURLHitsConfiguration();">Ok</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal" onclick="clearModalGroupURL();">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="modalNewPeriodicDataRecordTask" class="modal fade" role="dialog" style="display: none;">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" title="Close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">New Periodic Data Record Task</h4>
+					</div>
+					<div class="modal-body form-horizontal">
+						<div class="form-group form-group-custom">
+							<label class="control-label col-sm-4">Periodic Task Type:</label>
+							<div class="col-xs-6">
+								<select id="selectNewPeriodic" class="form-control" name="selectNewPeriodic">
+									<option value="PeriodicAggregationTask">Periodic Aggregation Task</option>
+									<option value="PeriodicRemovalTask">Periodic Removal Task</option>
+									<option value="PeriodicRTAPersistenceTask">Periodic RTA Persistence Task</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success" data-dismiss="modal" onclick="newPeriodicDataRecordTask();">Ok</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="footer">
+			<p>© Callis Technologies 2016 - ${requestScope.swVersion}</p>
+		</div>
+	</div>
+	<input type="hidden" id="urlAPIPrefix" name="urlAPIPrefix" value="" />
+	<script src="/js/datatables/dataTables.min.js"></script>
+	<script src="/js/settings/napSettings.js"></script>
+	<script src="/js/settings/napSettingsAjax.js"></script>
+	<script src="/js/datatables/dataTablesBootstrap3Integration.js"></script>
+</body>
+</html>

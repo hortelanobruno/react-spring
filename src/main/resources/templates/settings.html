@@ -1,0 +1,66 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Settings</title>
+<div th:include="jspf/header">...</div>
+<link href="/css/index.css" rel="stylesheet" />
+<!--SELECT 2-->
+<script src="/js/select2/select2.min.js"></script>
+<link rel="stylesheet" href="/css/select2/select2.min.css" />
+</head>
+<body>
+	<div th:include="jspf/toolbar">...</div>
+	<div class="north">
+		<div class="page-header">
+			<h1>Settings</h1>
+		</div>
+	</div>
+	<div class="west">
+		<div class="panel panel-default">
+			<div class="panel-heading">Back-end REST Server</div>
+			<div class="panel-body">
+				<span class="label label-default">IP:</span>
+				<div class="controls">
+					<input type="text" id="ipNap" th:value="${IP}" />
+				</div>
+				<span class="label label-default">Port:</span>
+				<div class="controls">
+					<input type="text" id="portNap" th:value="${Port}" />
+				</div>
+			</div>
+		</div>
+		<div id="time-zone" class="panel panel-default">
+			<div class="panel-heading">Time zone</div>
+			<div class="panel-body">
+				<div class="controls">
+					<select id="Time_Zone" name="Time_Zone" class="col-sm-1 form-control js-example-basic-single" style="max-width: 400px; width: auto;" th:field="*{TimeZoneIds}">
+						<option th:each="type : ${TimeZoneIds}" th:value="${type}" th:text="${type}">Wireframe</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">Set the session timeout</div>
+			<div class="panel-body">
+				<span class="label label-default">Expiration of session (min):</span>
+				<div class="controls">
+					<input type="text" name="timeout" id="timeout" th:value="${timeout}" />
+				</div>
+			</div>
+		</div>
+		<div style="margin-left: 15px;">
+			<a class="btn btn-default" href="/">Cancel</a> <input type="button" class="btn btn-success" onclick="SubmitSettings();" value="Save" />
+		</div>
+	</div>
+	<div class="south" style="position: fixed !important; top: 90%;">
+		<footer>
+			<p>&copy; Callis Technologies 2016 - ${requestScope.swVersion}</p>
+		</footer>
+		<div th:include="jspf/footer">...</div>
+	</div>
+	<script th:inline="javascript">
+	    var Time_Zone = [[${Time_Zone}]];
+	</script>
+	<script src="/js/settings.js"></script>
+</body>
+</html>
+

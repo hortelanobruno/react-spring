@@ -1,0 +1,50 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<div th:include="jspf/header">...</div>
+<link href="/css/networkNavigator.css" rel="stylesheet" />
+<!--EASYTREE-->
+<script src="/js/easytree/jquery.easytree.min.js"></script>
+<link rel="stylesheet" href="/css/easytree/ui.easytree.css" />
+<!--SPLITPANE-->
+<script type="text/javascript" src="/js/splitpane/jquery-ui-latest.js"></script>
+<script type="text/javascript" src="/js/splitpane/jquery.layout-1.3.0.rc30.80.js"></script>
+<link href="/css/splitpane/layout-default-latest.css" rel="stylesheet" />
+<!--X-EDITABLE-->
+<link href="/css/x-editable/bootstrap-editable.css" rel="stylesheet" />
+<script src="/js/x-editable/bootstrap-editable.min.js"></script>
+<!--DATETIMEPICKER-->
+<link href="/css/datetimepicker/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css"></link>
+<script src="/js/datetimepicker/bootstrap-datetimepicker.min.js?t=20130302"></script>
+<!-- HIGHCHARTS-->
+<script src="/js/highcharts/highcharts.js"></script>
+<script src="/js/highcharts/exporting.js"></script>
+<!-- FILESAVER-->
+<script src="/js/filesaver/FileSaver.min.js"></script>
+<script src="/js/networknavigator.js"></script>
+</head>
+<body>
+	<div th:include="jspf/toolbar">...</div>
+	<div id="layoutNetwork" class="layout-callis">
+		<div class="outer-center">
+			<!-- INICIO DIV PRINCIPAL-->
+			<div id="panelCentral" class="middle-center"></div>
+			<div class="middle-west">
+				<!--INICIO DIV TREE-->
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="active"><a class="tab-network-navigator-tree">Network Navigator</a></li>
+				</ul>
+				<div id="demoTree">
+					<!--INICIO TREE-->
+					<ul>
+
+					</ul>
+				</div>
+				<!--FIN TREE-->
+			</div>
+			<!--FIN DIV TREE-->
+		</div>
+		<!-- FIN DIV PRINCIPAL-->
+	</div>
+	<div th:include="jspf/footer">...</div>
+</body>
+</html>

@@ -9,11 +9,12 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import com.brunoli.payroll.analytics.entities.Domain;
-import com.brunoli.payroll.analytics.entities.Group;
-import com.brunoli.payroll.analytics.repository.DomainRepository;
-import com.brunoli.payroll.analytics.repository.GroupRepository;
-import com.brunoli.payroll.analytics.repository.UserRepository;
+import com.callistech.analytics.frontend.ReactSpringApplication;
+import com.callistech.analytics.frontend.domains.uc.entities.Domain;
+import com.callistech.analytics.frontend.domains.uc.entities.Group;
+import com.callistech.analytics.frontend.domains.uc.repository.DomainRepository;
+import com.callistech.analytics.frontend.domains.uc.repository.GroupRepository;
+import com.callistech.analytics.frontend.domains.uc.repository.UserRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ReactSpringApplication.class)

@@ -1,0 +1,91 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Dashboard QoE</title>
+<div th:include="jspf/header">...</div>
+<link href="/css/dashboard/sb-admin-2.css" rel="stylesheet" />
+<link href="/css/morris.css" rel="stylesheet" />
+<link href="/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+<link href="/css/circle.css" rel="stylesheet" />
+<link href="/css/jquery-ui.css" rel="stylesheet" />
+</head>
+<body>
+	<div id="wrapper">
+		<div th:include="jspf/toolbar">...</div>
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Dashboard QoE</h1>
+				</div>
+			</div>
+			<div class="section">
+				<div class="row">
+					<div class="col-md-3">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<i class="fa fa-pie-chart fa-fw"></i> Services
+							</div>
+							<div class="panel-body" id="panelServices">
+								<select id="servicesSelect" style="min-height: 710px;" size="10" class="form-control" onchange="loadServicePanels();">
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-md-5">
+						<div class="panel panel-default area_chart">
+							<div class="panel-heading">
+								<i class="fa fa-th-list fa-fw"></i> Avg. Bandwidth Score (Mbps)
+								<div>
+									<div class="btn-group" role="group" id="buttons">
+										<button type="button" class="btn btn-default" onclick="granularity = 'DAILY';loadServicePanels()">Daily</button>
+										<button type="button" class="btn btn-default" onclick="granularity = 'WEEKLY';loadServicePanels()">Weekly</button>
+										<button type="button" class="btn btn-default" onclick="granularity = 'MONTHLY';loadServicePanels()">Monthly</button>
+									</div>
+								</div>
+							</div>
+
+							<div class="panel-heading" id="avgBandwidthPanelGlobal"></div>
+							<div class="panel-body" style="max-height: 610px; overflow-y: scroll; min-height: 610px" id="avgBandwidthPanel"></div>
+						</div>
+					</div>
+
+					<div class="col-md-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<i class="fa fa-pie-chart fa-fw"></i> Service Active Subscribers
+							</div>
+							<div class="panel-body" id="panelCircles">
+								<a id='alertNotAvailableCircles' class='list-group-item'> <i class='fa fa-exclamation-circle fa-fw'></i> Not Available <span class='pull-right text-muted small'><em></em> </span></a>
+								<div class="donut_chart" id="donut-left"></div>
+								<div class="donut_chart" id="donut-right"></div>
+								<div class="row">
+									<span class="label label-default" style="float: left; margin-left: 120px;" id="labelGlobal">Global</span> <span class="label label-default" style="float: right; margin-right: 180px;" id="labelHUB"></span>
+								</div>
+							</div>
+						</div>
+
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<i class="fa fa-line-chart fa-fw"></i> Service Active Subscribers Trend
+							</div>
+							<div class="panel-body" id="panelAreaChart">
+								<a id='alertNotAvailableChart' class='list-group-item'> <i class='fa fa-exclamation-circle fa-fw'></i> Not Available <span class='pull-right text-muted small'><em></em> </span></a>
+								<div id="line-chart"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="/js/morris.min.js"></script>
+	<script src="/js/raphael-min.js"></script>
+	<script src="/js/jquery-ui.js"></script>
+	<script src="/js/dashVOD.js"></script>
+</body>
+</html>

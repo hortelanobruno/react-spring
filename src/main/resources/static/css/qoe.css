@@ -1,0 +1,28 @@
+body {
+    padding-top: 0;
+}
+
+.linkStyle {
+    cursor: pointer;
+}
+
+.linkDisabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+.textDisabled {
+    color: darkgray;
+}
+
+.dataTable {
+    display: none;
+    margin-left: 0%;
+    width: 100%
+}
+
+.checkboxTable {
+    cursor: pointer;
+    margin-right: 5px !important;
+    vertical-align: top;
+}

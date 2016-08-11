@@ -1,0 +1,367 @@
+body {
+    padding-top: 0px;
+    overflow: hidden;
+}
+.tab-template {
+    font-size: 15px;
+}
+
+.node-template-domain {
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 25px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    display: block; /* Si se quiere ocultar: none !important; */
+    /* (Y conviene cambiar en ui.easytree.css... ul.easytree-container ul { padding: 0 0 0 5px; }) */
+}
+
+.node-template-group {
+    text-transform: uppercase;
+    font-size: 12px;
+    color: #666666;
+    font-weight: bold;
+    line-height: 20px;
+    margin-bottom: 3px;
+    display: block;
+    cursor: pointer;
+}
+
+.node-template {
+    font-size: 12px;
+    color: #428bca;
+}
+
+#chartPanel {
+    min-width: 100px;
+    min-height: 100px;
+    margin: 0 auto;
+}
+
+#tableProperties th, td {
+    font-size: 14px;
+}
+
+#tableResults td, #tableReport td {
+    font-size: 12px;
+    padding: 3px;
+    white-space: nowrap;
+}
+
+#tableReport tfoot th {
+    font-size: 12px;
+    padding: 3px;
+}
+
+.dataTables_filter { /* Para que no muestre le search global */
+    display: none;
+}
+
+/* TOOLBAR TABLE **************************************************************/
+.template-run-ico {
+    background-image: url(../img/report/report-execute.gif) !important ;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+.template-cancel-ico {
+    background-image: url(../img/report/stop.png) !important;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+.template-export-ico {
+    background-image: url(../img/report/application_put.png) !important;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.template-export-histogram-specific-ico {
+    background-image: url(../img/report/layout_join.png) !important;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.template-export-parameters-ico {
+    background-image: url(../img/report/page_white_put.png) !important;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.template-executing-query-ico{
+    background-image: url(../img/report/ajax-loader.gif) !important;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+.template-toolbar-button {
+    height: 25px;
+}
+.template-toolbar-properties{
+    padding-bottom: 10px;
+}
+
+.hcContenedor {
+    height:100%;
+    width:100%;position:absolute;
+}
+/* FIN TOOLBAR TABLE **********************************************************/
+
+/* X-EDITABLE *****************************************************************/
+.editable-checklist label {
+    display: block;
+}
+/* FIN X-EDITABLE *************************************************************/
+
+/* SPLITPANE ******************************************************************/
+/*
+ *	NOTE: All CSS is purely cosmetic - it does not affect functionality
+ */
+
+/* customize borders to avoid double-borders around inner-layouts */
+.ui-layout-pane {
+    border:			0; /* override layout-default-latest.css */
+    border-top:		1px solid #BBB;
+    border-bottom:	1px solid #BBB;
+}
+.ui-layout-pane-north ,
+.ui-layout-pane-south {
+    border:			1px solid #BBB;
+    overflow:		hidden;
+}
+.ui-layout-pane-west ,
+.ui-layout-pane-east {
+}
+.ui-layout-pane-center	{
+    border-left:	0;
+    border-right:	0;
+}
+.inner-center {
+    border:		1px solid #BBB;
+}
+
+/* add shading to outer sidebar-panes */
+.outer-west ,
+.outer-east {
+    background-color: #EEE;
+}
+.middle-west ,
+.middle-east {
+    background-color: #F8F8F8;
+}
+
+/* remove padding & scrolling from panes that are 'containers' for nested layouts */
+.outer-center ,
+.middle-center {
+    border:			0; /* cosmetic */
+    padding:		0;
+    overflow:		hidden;
+}
+
+/*
+ *	customize borders on panes/resizers to make pretty
+ */
+.ui-layout-pane-west		{ border-right:		0; }
+.ui-layout-resizer-west		{ border-left:		1px solid #BBB; }
+.ui-layout-pane-east		{ border-left:		0; }
+.ui-layout-resizer-east		{ border-right:		1px solid #BBB; }
+.ui-layout-pane-north		{ border-bottom:	0; }
+.ui-layout-resizer-north	{ border-top:		1px solid #BBB; }
+.ui-layout-pane-south		{ border-top:		0; }
+.ui-layout-resizer-south	{ border-bottom: 	1px solid #BBB; }
+/*
+ *	add borders to resizers when pane is 'closed'
+ *
+ *.ui-layout-resizer-closed	{ border:			1px solid #BBB; }
+ */
+/*
+ *	show both borders when the resizer is 'dragging'
+ */
+.ui-layout-resizer-west-dragging ,
+.ui-layout-resizer-east-dragging {
+    border-left:		1px solid #BBB;
+    border-right:		1px solid #BBB;
+}
+.ui-layout-resizer-north-dragging ,
+.ui-layout-resizer-south-dragging {
+    border-top:		1px solid #BBB;
+    border-bottom:	1px solid #BBB;
+}
+
+/* INNER SPLIT-PANE ***********************************************************/
+.inner-layout-container	{
+    height: 98%;
+}
+
+.ui-layout-center ,
+.ui-layout-south ,
+.inner-center {
+    /* prevent 'Flash Of Content' - panes will show automatically when layout initializes */
+    display: none;
+
+}
+
+.inner-center {
+    padding:            20px; /* SAMPLE formatting */
+}
+
+/* remove scrollbar from panes that have a 'srolling content div' */
+.inner-layout-container .ui-layout-pane {
+    overflow:           hidden; /* prevent temporary 'flash' of scrollbar - using a scrolling div instead */
+}
+
+/* format content-div */
+.ui-layout-content {
+    padding:		10px;
+    overflow:		auto; /* REQUIRED if you want it to 'scroll' */
+}
+/* add some formatting to headers */
+.pane-header {
+    padding:		3px 10px;
+    margin-bottom:	10px; /* space between header and content-div below */
+}
+
+/* SAMPLE - padding on inner-layout container */
+.ui-layout-center {
+    padding:		30px;
+}
+/******************************************************************************/
+/* FIN SPLITPANE **************************************************************/
+
+/* EASYTREE *******************************************************************/
+.ui-icon-template-domain {
+    width: 0px;
+    height: 0px;
+}
+
+.ui-icon-template-group {
+    background-image: url(../img/report/templategroup.gif);
+    width: 16px;
+    height: 16px;
+}
+
+.ui-icon-template {
+    background-image: url(../img/report/template.gif);
+    width: 16px;
+    height: 16px;
+}
+
+.tree-panel {
+    height: 100%;
+}
+.nav-list {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-bottom: 0;
+}
+
+.nav-list>li>a, .nav-list .nav-header {
+    margin-right: -15px;
+    margin-left: -15px;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}
+
+.nav-header-top {
+    display: block;
+    padding: 3px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 20px;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+    cursor: pointer;
+}
+
+.nav-header {
+    display: block;
+    padding: 3px 15px;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 20px;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.nav-list>li>a {
+    padding: 3px 15px;
+    font-size: 12px;
+}
+
+.nav-list .divider {
+    height: 1px;
+    margin: 9px 1px;
+    overflow: hidden;
+    background-color: #e5e5e5;
+    border-bottom: 1px solid #fff;
+}
+
+.nav-list img{
+    padding-right: 10px;
+}
+
+.nav-list .template{
+    cursor: pointer;
+}
+
+.nav-list .active{
+    color: #fff;
+    background-color: #428bca;
+}
+
+.nav .nav-list .active a:hover{
+    text-decoration: none;
+    color: #fff;
+    background-color: #428bca;
+}
+
+.nav>li>a:hover, .nav>li>a:focus {
+    text-decoration: none;
+    color: #fff;
+    background-color: #428bca;
+}
+
+/* FIN EASYTREE ***************************************************************/
+
+/* DIALOG MODAL *******************************************************************/
+.modal-dialog-center{
+    /*margin-left: 40%;*/
+    /*margin-top: 15%;*/
+}
+
+.modal-dialog-size{
+    position: absolute;
+}
+
+.modal-callis{
+    top: 30%;
+}
+/* FIN DIALOG MODAL *******************************************************************/
+
+html, body {
+    /*background:	#666;*/
+    width:		100%;
+    height:		100%;
+    /*    padding:	0;
+        margin:		0;*/
+    /*overflow:	auto;   when page gets too small */
+}
+
+.layout-callis{
+    /*background:	#999;*/
+    height:		100%;
+    margin:		0 auto;
+    width:		100%;
+    /*max-width:	900px;*/
+    min-width:	700px;
+    _width:		700px;  /*min-width for IE6 */
+}
+
+.treeScrollReporter{
+    height: 94%;
+}
+
+.middle-west{
+    overflow: hidden !important;
+}
+
+.templateWarning span {
+    color: lightgray;
+}

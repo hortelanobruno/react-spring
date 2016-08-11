@@ -1,0 +1,96 @@
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <jsp:include page="/WEB-INF/jspf/header.jsp" />
+    </head>
+    <body>
+        <jsp:include page="/WEB-INF/jspf/toolbar.jsp" />
+
+        <div>
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul id="template-list" class="nav nav-sidebar">
+                </ul>
+            </div>
+            <div>
+                <div id="template-result-panel">
+
+                </div>
+            </div>
+        </div>
+        <jsp:include page="/WEB-INF/jspf/footer.jsp" />
+
+        <script type="text/javascript">
+            // URL
+            var urlAPIPrefix;
+            $(document).ready(function () {
+                // Setea URL
+                urlAPIPrefix = "${pageContext.request.contextPath}" + '<%=NAPConfigurationConstants.REST_AJAX_PROXY%>';
+                // Load templates
+                var templates = getTemplates();
+                $("#template-list").empty();
+                for (var template in templates) {
+                    $("#template-list").append("<li><a onclick='selectCDR(" + templates[template].id + ")'>" + templates[template].name + "</a></li>");
+                }
+            });
+
+            function getTemplates() {
+                // LLAMADA AJAX PARA OBTENER LOS TEMPLATES
+                var resultado = [];
+                $.ajax({type: "get",
+                    dataType: "json",
+                    async: false,
+                    url: urlAPIPrefix + "/getTemplates",
+                    success: function (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            for (var j = 0; j < data[i].templateInfos.length; j++) {
+                                resultado.push(data[i].templateInfos[j]);
+                            }
+                        }
+                    },
+                    error: function (response) {
+                        var str = response.responseText + "";
+                        var pos = str.lastIndexOf("Login");
+                        if (pos !== -1) {
+                            window.location = window.location.href;
+                        }
+                    }
+                });
+                return resultado;
+            }
+
+            function selectCDR(templateId) {
+                var vecParams = {};
+                vecParams['templateId'] = templateId;
+                $.ajax({type: "post",
+                    dataType: "json",
+                    data: vecParams,
+                    url: urlAPIPrefix + "/executeQuery",
+                    success: function (data) {
+                        loadCDR(templateId, data);
+                    },
+                    error: function (response) {
+                        var str = response.responseText + "";
+                        var pos = str.lastIndexOf("Login");
+                        if (pos !== -1) {
+                            window.location = window.location.href;
+                        }
+                    }
+                });
+            }
+
+            // Esta variable se utiliza adentro de cdr-category
+            var cdrData = null;
+
+            function loadCDR(templateId, data) {
+                cdrData = data;
+                $("#template-result-panel").empty();
+                if (data !== null) {
+                    if (data.templateType === "device") {
+                        $("#template-result-panel").load("ajax/cdr-device.html");
+                    } else if (data.templateType === "category") {
+                        $("#template-result-panel").load("ajax/cdr-category.html");
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,44 @@
+body {
+    padding-top: 0;
+}
+
+
+.linkStyle {
+    cursor: pointer;
+}
+
+.linkDisabled {
+    pointer-events: none;
+    cursor: default;
+}
+
+.textDisabled {
+    color: darkgray;
+}
+
+.dataTable {
+    display: none;
+    margin-left: 0%;
+    width: 100%
+}
+
+.tableTitle {
+
+}
+
+.tableHeader {
+
+}
+
+.alignCenter{
+    text-align: center;
+}
+
+.alignRight{
+    text-align: right;
+}
+
+.statusLight {
+    width: 24px;
+    height:24px;
+}

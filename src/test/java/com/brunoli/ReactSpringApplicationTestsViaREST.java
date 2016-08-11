@@ -29,10 +29,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.brunoli.payroll.analytics.entities.Domain;
-import com.brunoli.payroll.analytics.repository.DomainRepository;
-import com.brunoli.payroll.analytics.repository.GroupRepository;
-import com.brunoli.payroll.analytics.repository.UserRepository;
+import com.callistech.analytics.frontend.ReactSpringApplication;
+import com.callistech.analytics.frontend.domains.uc.entities.Domain;
+import com.callistech.analytics.frontend.domains.uc.repository.DomainRepository;
+import com.callistech.analytics.frontend.domains.uc.repository.GroupRepository;
+import com.callistech.analytics.frontend.domains.uc.repository.UserRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ReactSpringApplication.class)
@@ -130,14 +131,12 @@ public class ReactSpringApplicationTestsViaREST {
 		mockMvc.perform(get("/api/domains")).andExpect(status().isOk()).andExpect(jsonPath("$['page']['totalElements']").value(2));
 		mockMvc.perform(get("/api/domains")).andExpect(status().isOk()).andExpect(jsonPath("$['_embedded']['domains']", hasSize(2)));
 	}
-	
+
 	@Test
 	public void getDomainByDesc() throws Exception {
-		//http://localhost:8080/api/domains/search/byDesc?description=desc11
+		// http://localhost:8080/api/domains/search/byDesc?description=desc11
 		mockMvc.perform(get("/api/domains/search/byDesc?description=desc11")).andExpect(status().isOk()).andExpect(jsonPath("$['_embedded']['domains']", hasSize(1)));
 	}
-	
-	
 
 	protected String json(Object o) throws IOException {
 		MockHttpOutputMessage mockHttpOutputMessage = new MockHttpOutputMessage();

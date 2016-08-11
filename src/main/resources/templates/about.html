@@ -1,0 +1,28 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<title>About</title>
+<div th:include="jspf/header">...</div>
+<link href="/css/index.css" rel="stylesheet" />
+<script src="/js/index.js"></script>
+<link rel="icon" href="/img/logo4.png" type="image/x-icon" />
+</head>
+<body>
+	<div id="wrappercentral">
+		<div th:include="jspf/toolbar">...</div>
+		<div class="titleHeader">
+			<div class="well hero-unit">
+				<h1>CSM Analytics Console</h1>
+				<br /> <br /> <br />
+				<p>CSM Analytics Console 2016 by Callis Technologies - ${requestScope.swVersion}</p>
+			</div>
+		</div>
+		<div id="footer">
+			<div th:include="jspf/footer">...</div>
+		</div>
+	</div>
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/bootstrap.js"></script>
+	<script src="/js/Support.js"></script>
+</body>
+</html>

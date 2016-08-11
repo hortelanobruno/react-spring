@@ -1,0 +1,268 @@
+body {
+    padding-top: 0px;
+    overflow: hidden;
+
+}
+
+.tab-network-navigator-tree {
+    font-size: 15px;
+}
+
+.node-site {
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 25px;
+    margin-bottom: 5px;
+    display: block;
+    cursor: pointer;
+}
+
+.node-tree {
+    font-size: 12px;
+    color: #666666;
+    line-height: 20px;
+    margin-bottom: 3px;
+    display: block;
+    cursor: pointer;
+}
+
+.node-device {
+    font-weight: bold;
+}
+
+.node-device-components-title {
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 25px;
+    margin-bottom: 5px;
+    display: block;
+    cursor: pointer;
+}
+
+.node-balancing-group {
+    font-weight: bold;
+}
+
+.node-sce-link {
+    font-weight: normal;
+}
+
+.node-cmts-interface {
+    font-weight: normal;
+}
+
+.ui-no-icon {
+    width: 0px;
+    height: 0px;
+}
+
+.ui-icon-sce {
+    background-image: url(../img/report/sce-16x16.png);
+    width: 16px;
+    height: 12px;
+}
+
+.ui-icon-sce-link {
+    background-image: url(../img/report/link_break.png);
+    width: 16px;
+    height: 16px;
+}
+
+.ui-icon-cmts {
+    background-image: url(../img/report/cmts-16x16.png);
+    width: 16px;
+    height: 16px;
+}
+
+.ui-icon-balancing-group {
+    background-image: url(../img/report/drive_link.png);
+    width: 16px;
+    height: 16px;
+}
+
+.ui-icon-cmts-interface {
+    background-image: url(../img/report/link_break.png);
+    width: 16px;
+    height: 16px;
+}
+
+.divLoadPanel {
+    width: 500px;
+}
+
+.labelLoadPanel{
+    font-size: 14px;
+    text-align: left !important;
+    padding-left: 45px;
+    width: 180px;
+}
+
+.textFieldLoadPanel {
+    width: 400px;
+    text-align: right;
+    cursor: default !important;
+}
+
+
+/* SPLITPANE ******************************************************************/
+/*
+ *	NOTE: All CSS is purely cosmetic - it does not affect functionality
+ */
+
+/* customize borders to avoid double-borders around inner-layouts */
+.ui-layout-pane {
+    border:			0; /* override layout-default-latest.css */
+    border-top:		1px solid #BBB;
+    border-bottom:	1px solid #BBB;
+}
+.ui-layout-pane-north ,
+.ui-layout-pane-south {
+    border:			1px solid #BBB;
+    overflow:		hidden;
+}
+.ui-layout-pane-west ,
+.ui-layout-pane-east {
+}
+.ui-layout-pane-center	{
+    border-left:	0;
+    border-right:	0;
+}
+.inner-center {
+    border:		1px solid #BBB;
+}
+
+/* add shading to outer sidebar-panes */
+.outer-west ,
+.outer-east {
+    background-color: #EEE;
+}
+.middle-west ,
+.middle-east {
+    background-color: #F8F8F8;
+}
+
+/* remove padding & scrolling from panes that are 'containers' for nested layouts */
+.outer-center ,
+.middle-center {
+    border:			0; /* cosmetic */
+    padding:		0;
+    overflow:		hidden;
+}
+
+/*
+ *	customize borders on panes/resizers to make pretty
+ */
+.ui-layout-pane-west		{ border-right:		0; }
+.ui-layout-resizer-west		{ border-left:		1px solid #BBB; }
+.ui-layout-pane-east		{ border-left:		0; }
+.ui-layout-resizer-east		{ border-right:		1px solid #BBB; }
+.ui-layout-pane-north		{ border-bottom:	0; }
+.ui-layout-resizer-north	{ border-top:		1px solid #BBB; }
+.ui-layout-pane-south		{ border-top:		0; }
+.ui-layout-resizer-south	{ border-bottom: 	1px solid #BBB; }
+/*
+ *	add borders to resizers when pane is 'closed'
+ *
+ *.ui-layout-resizer-closed	{ border:			1px solid #BBB; }
+ */
+/*
+ *	show both borders when the resizer is 'dragging'
+ */
+.ui-layout-resizer-west-dragging ,
+.ui-layout-resizer-east-dragging {
+    border-left:		1px solid #BBB;
+    border-right:		1px solid #BBB;
+}
+.ui-layout-resizer-north-dragging ,
+.ui-layout-resizer-south-dragging {
+    border-top:		1px solid #BBB;
+    border-bottom:	1px solid #BBB;
+}
+/* FIN SPLITPANE **************************************************************/
+
+/* EASYTREE *******************************************************************/
+.tree-panel {
+    height: 100%;
+}
+.nav-list {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-bottom: 0;
+}
+
+.nav-list>li>a, .nav-list .nav-header {
+    margin-right: -15px;
+    margin-left: -15px;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}
+
+.nav-header-top {
+    display: block;
+    padding: 3px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 20px;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+    cursor: pointer;
+}
+
+.nav-header {
+    display: block;
+    padding: 3px 15px;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 20px;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.nav-list>li>a {
+    padding: 3px 15px;
+    font-size: 12px;
+}
+
+.nav-list .divider {
+    height: 1px;
+    margin: 9px 1px;
+    overflow: hidden;
+    background-color: #e5e5e5;
+    border-bottom: 1px solid #fff;
+}
+
+.nav-list img{
+    padding-right: 10px;
+}
+
+.nav-list .template{
+    cursor: pointer;
+}
+
+.nav-list .active{
+    color: #fff;
+    background-color: #428bca;
+}
+
+.nav .nav-list .active a:hover{
+    text-decoration: none;
+    color: #fff;
+    background-color: #428bca;
+}
+
+.nav>li>a:hover, .nav>li>a:focus {
+    text-decoration: none;
+    color: #fff;
+    background-color: #428bca;
+}
+/* FIN EASYTREE ***************************************************************/
+
+
+.layout-callis{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+
+}

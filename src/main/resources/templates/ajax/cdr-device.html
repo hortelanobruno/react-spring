@@ -1,0 +1,58 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" ng-show="templateCtrl.queryResult != null">
+    <h1 id="titulo" class="page-header">{{templateCtrl.queryResult.templateName}}<span></span></h1>
+    <h2 id="timestamp" class="sub-header" ng-show="templateCtrl.queryResult.timestamp != null">{{templateCtrl.queryResult.timestamp * 1000| date:'dd/MM/yyyy HH:mm'}}</h2>
+    <div class="table-responsive">
+        <div class="animate-switch-container" ng-switch on="templateCtrl.queryResult.templateType">
+            <div class="animate-switch" ng-switch-when="device">
+                <table id="tabla" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Device
+                            </th>
+                            <th ng-show="templateCtrl.queryResult.cdrs[0].pkg != null">
+                                Package
+                            </th>
+                            <th ng-show="templateCtrl.queryResult.cdrs[0].service != null">
+                                Services
+                            </th>
+                            <th>
+                                Quality
+                            </th>
+                            <th ng-repeat="category in templateCtrl.queryResult.categories">
+                                {{category}}
+                            </th>
+                            <th>
+                                Streams
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="cdr in templateCtrl.queryResult.cdrs">
+                            <td>
+                                {{cdr.networkDevice.name}}
+                            </td>
+                            <td ng-show="cdr.pkg != null">
+                                {{cdr.pkg.name}}
+                            </td>
+                            <td ng-show="cdr.service != null">
+                                {{cdr.service.name}}
+                            </td>
+                            <td>
+                                <strong>
+                                    {{templateCtrl.queryResult.categories[cdr.quality]}}
+                                </strong>
+                            </td>
+                            <td ng-repeat="(key, value) in templateCtrl.queryResult.categories">
+                                <div data-toggle="tooltip" title="Value: {{cdr.categories[key].value}} - Unique subs: {{cdr.categories[key].uniqSubs}}">{{cdr.categories[key].relativeValue.toFixed(2)}}%</div>
+                            </td>
+                            <td>
+                                <div data-toggle="tooltip" title="Value: {{cdr.streams.value}}.">{{cdr.streams.relativeValue.toFixed(2)}}%</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
