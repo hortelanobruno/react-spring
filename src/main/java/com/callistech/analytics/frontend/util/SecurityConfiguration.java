@@ -29,11 +29,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/built/**", "/main.css", "/api/**").permitAll().anyRequest().authenticated().and().formLogin().defaultSuccessUrl("/", true).permitAll().and().httpBasic().and().csrf().disable().logout().logoutSuccessUrl("/");
-
-		// http.authorizeRequests().anyRequest().authenticated().and().formLogin().and().httpBasic().disable();
-
-		// http.authorizeRequests().anyRequest().permitAll().and().csrf().disable();
+		http.authorizeRequests().antMatchers("/built/**", "/main.css", "/api/**", "/css/**", "/fonts/**", "/img/**", "/js/**").permitAll().anyRequest().authenticated()
+		.and()
+		.formLogin().loginPage("/login").permitAll()
+		.and()
+		.httpBasic()
+		.and()
+		.csrf().disable().logout().logoutSuccessUrl("/");
 	}
 
 }
